@@ -1,5 +1,3 @@
-using ProjectTrack.Domain.UserAggregate;
-
 namespace ProjectTrack.API.Contracts.Authentication;
 
 public record AuthenticationResponse(

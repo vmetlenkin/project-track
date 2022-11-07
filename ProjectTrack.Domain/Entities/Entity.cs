@@ -1,13 +1,11 @@
-﻿namespace ProjectTrack.Domain.Models;
+﻿namespace ProjectTrack.Domain.Entities;
 
 public class Entity<TId> : IEquatable<Entity<TId>>
     where TId : notnull
 {
     public TId Id { get; protected set; }
 
-    protected Entity()
-    {
-    }
+    protected Entity() { }
     
     protected Entity(TId id)
     {

@@ -1,12 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTrack.Domain.UserAggregate;
+using ProjectTrack.Domain.Entities;
+using ProjectTrack.Domain.Entities.ProjectModel;
+using ProjectTrack.Domain.Entities.UserModel;
 using ProjectTrack.Infrastructure.EntityConfigurations;
 
 namespace ProjectTrack.Infrastructure;
 
 public sealed class DatabaseContext : DbContext
 {
-    public DbSet<User> Articles => Set<User>();
+    public DbSet<User> Users => Set<User>();
+    public DbSet<Project> Projects => Set<Project>();
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options) 
         : base(options)
@@ -17,5 +20,6 @@ public sealed class DatabaseContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ProjectEntityTypeConfiguration());
     }
 }

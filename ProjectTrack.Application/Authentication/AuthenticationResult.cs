@@ -1,6 +1,4 @@
-using ProjectTrack.Domain.UserAggregate;
-
-namespace ProjectTrack.Application.Authentication.Commands;
+namespace ProjectTrack.Application.Authentication;
 
 public record AuthenticationResult(
     Guid Id,

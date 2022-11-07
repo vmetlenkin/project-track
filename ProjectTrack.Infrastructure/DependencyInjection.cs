@@ -21,6 +21,7 @@ public static class DependencyInjection
         services.AddAuth(configuration);
         
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddDbContext<DatabaseContext>(c =>
