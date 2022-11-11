@@ -1,11 +1,10 @@
 using ErrorOr;
 using MediatR;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities;
 using ProjectTrack.Domain.Entities.ProjectModel;
 using ProjectTrack.Domain.Errors;
 
-namespace ProjectTrack.Application.Projects.Commands.Register;
+namespace ProjectTrack.Application.Projects.Commands.CreateProject;
 
 public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, ErrorOr<CreateProjectResult>>
 {

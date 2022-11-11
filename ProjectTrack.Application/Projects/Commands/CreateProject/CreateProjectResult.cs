@@ -1,4 +1,4 @@
-namespace ProjectTrack.Application.Projects.Commands.Register;
+namespace ProjectTrack.Application.Projects.Commands.CreateProject;
 
 public record CreateProjectResult(
     Guid Id,

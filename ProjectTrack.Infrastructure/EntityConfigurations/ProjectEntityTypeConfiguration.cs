@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using ProjectTrack.Domain.Entities;
 using ProjectTrack.Domain.Entities.ProjectModel;
 
 namespace ProjectTrack.Infrastructure.EntityConfigurations;

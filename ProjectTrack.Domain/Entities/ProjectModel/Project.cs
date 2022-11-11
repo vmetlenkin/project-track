@@ -2,8 +2,11 @@
 
 public sealed class Project : Entity<Guid>
 {
+    private readonly List<ProjectTask> _tasks = new();
+    
     public string Name { get; private set; }
     public Guid UserId { get; private set; }
+    public IReadOnlyList<ProjectTask> Tasks => _tasks.AsReadOnly();
     
     private Project() { }
 
@@ -20,5 +23,10 @@ public sealed class Project : Entity<Guid>
             Guid.NewGuid(), 
             name,
             userId);
+    }
+
+    public void AddTask(ProjectTask task)
+    {
+        _tasks.Add(task);
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTrack.Domain.Entities;
 using ProjectTrack.Domain.Entities.ProjectModel;
 using ProjectTrack.Domain.Entities.UserModel;
 using ProjectTrack.Infrastructure.EntityConfigurations;
@@ -10,6 +9,7 @@ public sealed class DatabaseContext : DbContext
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Project> Projects => Set<Project>();
+    public DbSet<ProjectTask> Tasks => Set<ProjectTask>();
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options) 
         : base(options)
@@ -21,5 +21,6 @@ public sealed class DatabaseContext : DbContext
     {
         modelBuilder.ApplyConfiguration(new UserEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new ProjectEntityTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new TaskEntityTypeConfiguration());
     }
 }
