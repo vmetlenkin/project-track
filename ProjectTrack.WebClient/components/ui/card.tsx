@@ -16,7 +16,7 @@ const Card = () => {
           <Dropdown />
         </div>
       </div>
-      <Link href="/projects/1">
+      <Link href={{pathname: `/projects/1`, query: { page: 'tasks' }} }>
         <h5 className="text-xl font-semibold mb-4 hover:text-indigo-700">Разработка сайта</h5>
       </Link>
       <p className="mb-4">

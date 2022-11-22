@@ -3,7 +3,7 @@ import MainLayout from '../../layouts/main-layout';
 import Heading from '../../components/ui/heading';
 import Card from '../../components/ui/card';
 import Container from '../../components/ui/container';
-import Modal from '../../components/ui/modal';
+import AuthModal from "../../components/auth-modal/auth-modal";
 
 const ProjectsPage = () => {
   return (
@@ -15,7 +15,7 @@ const ProjectsPage = () => {
             
           </div>
           <div>
-            <Modal />
+            <AuthModal />
           </div>
         </div>
         <div className="grid grid-cols-3 gap-4">
