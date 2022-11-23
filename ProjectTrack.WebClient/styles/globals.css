@@ -21,3 +21,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.link {
+  @apply text-indigo-700 hover:text-indigo-800 cursor-pointer;
+}

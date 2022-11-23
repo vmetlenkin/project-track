@@ -1,14 +1,25 @@
 ﻿import React from 'react';
 
 type Props = {
-  children: React.ReactNode
+  children: React.ReactNode,
+  color?: 'indigo' | 'green' | 'red'
 }
 
-const Button: React.FC<Props> = ({ children }) => {
+const Button: React.FC<Props> = (props) => {
+  const {
+    children,
+    color = 'indigo'
+  } = props;
+
+  const theme = {
+    'indigo': 'bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-300',
+    'green': 'bg-green-600 hover:bg-green-700 focus:ring-green-300',
+    'red': 'bg-red-500 hover:bg-red-600 focus:ring-red-300'
+  };
+  
   return (
-    <button type="button" className="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:ring-blue-300 
-      font-medium rounded-md text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none 
-      dark:focus:ring-indigo-300">
+    <button type="button" className={`${theme[color]} text-white font-medium rounded-md text-sm px-5 py-2.5 focus:ring-4
+      focus:outline-none`}> 
       {children}
     </button>
   );

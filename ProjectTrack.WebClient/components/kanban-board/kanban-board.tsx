@@ -2,8 +2,11 @@
 import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
 import Badge from "../ui/badge";
 import Modal from "../ui/modal";
+import EditTaskModal from "./edit-task-modal";
+import Dropdown from "../ui/dropdown";
+import AvatarList from "../ui/avatar-list";
 
-const columns = {
+const data = {
   'tasks': {
     tasks: [
       {
@@ -79,7 +82,7 @@ const columns = {
 };
 
 const KanbanBoard = () => {
-  const [tasks, updateTasks] = useState(columns);
+  const [columns, updateColumns] = useState(data);
   const [taskModal, showTaskModal] = useState(false);
   
   const handleOnDragEnd = (result) => {
@@ -88,26 +91,26 @@ const KanbanBoard = () => {
     if (!destination) return;
     
     if (destination.droppableId === source.droppableId) {
-      const items = Array.from(tasks[source.droppableId].tasks);
+      const items = Array.from(columns[source.droppableId].tasks);
       const [removed] = items.splice(source.index, 1);
       items.splice(destination.index, 0, removed);
 
       const updatedState = {
-        ...tasks,
+        ...columns,
         [source.droppableId]: {
           tasks: items
         }
       };
       
-      updateTasks(updatedState);
+      updateColumns(updatedState);
     } else {
-      const startColumn = [...tasks[source.droppableId].tasks];
-      const finishColumn = [...tasks[destination.droppableId].tasks];
+      const startColumn = [...columns[source.droppableId].tasks];
+      const finishColumn = [...columns[destination.droppableId].tasks];
       const [removed] = startColumn.splice(source.index, 1);
       finishColumn.splice(destination.index, 0, removed);
 
       const updatedState = {
-        ...tasks,
+        ...columns,
         [source.droppableId]: {
           tasks: startColumn
         },
@@ -116,7 +119,7 @@ const KanbanBoard = () => {
         },
       };
       
-      updateTasks(updatedState);
+      updateColumns(updatedState);
     }
   }
   
@@ -124,135 +127,51 @@ const KanbanBoard = () => {
     <>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <div className="flex gap-4 items-start">
-          <Droppable droppableId="tasks">
-            {(provided) => (
-              <div className="bg-[#F4F3F6] rounded-sm w-1/4" {...provided.droppableProps} ref={provided.innerRef}>
-                <div className="p-4">
-                  <h3 className="text-xl mb-4 font-semibold">
-                    Новые задачи <span className="text-gray-400">{tasks['tasks'].tasks.length}</span>
-                  </h3>
-                  {tasks['tasks'].tasks.map((task, index) => (
-                    <Draggable key={task.id} draggableId={task.id} index={index}>
-                      {(provided) => (
-                        <div
-                          className="bg-white rounded-sm mb-2 p-4 font-semibold space-y-4"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
-                          onClick={() => showTaskModal(true)}
-                        >
-                          <div className="flex">
-                            <Badge>Kanban</Badge>
-                            <Badge color="red">C#</Badge>
+          {Object.keys(columns).map(columnId => (
+            <Droppable droppableId={columnId} key={columnId}>
+              {(provided) => (
+                <div className="bg-[#F4F3F6] rounded-sm w-1/4" {...provided.droppableProps} ref={provided.innerRef}>
+                  <div className="px-2 py-2">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-xl font-semibold">
+                        <span className="ml-0.5">Новые задачи</span> 
+                        <span className="text-gray-400 ml-2">{columns[columnId].tasks.length}</span>
+                      </h3>
+                      <Dropdown />
+                    </div>
+                    {columns[columnId].tasks.map((task, index) => (
+                      <Draggable key={task.id} draggableId={task.id} index={index}>
+                        {(provided) => (
+                          <div
+                            className="bg-white rounded-sm mb-2 p-4 font-semibold space-y-4"
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            ref={provided.innerRef}
+                            onClick={() => showTaskModal(true)}
+                          >
+                            <div className="flex">
+                              <Badge>Kanban</Badge>
+                              <Badge color="red">C#</Badge>
+                            </div>
+                            <div>{task.title}</div>
+                            <AvatarList size="sm" />
                           </div>
-                          <div>{task.title}</div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                  <button className="flex justify-center bg-[#EBEAED] p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm">
+                    Новая карточка
+                  </button>
                 </div>
-                <button className="flex justify-center bg-gray-200 p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm">
-                  Новая карточка
-                </button>
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="inprocess">
-            {(provided) => (
-              <div className="bg-[#F4F3F6] rounded-sm w-1/4" {...provided.droppableProps} ref={provided.innerRef}>
-                <div className="p-4">
-                  <h3 className="text-xl mb-4 font-semibold">В процессе</h3>
-                  {tasks['inprocess'].tasks.map((task, index) => (
-                    <Draggable key={task.id} draggableId={task.id} index={index}>
-                      {(provided) => (
-                        <div
-                          className="bg-white rounded-sm mb-2 p-4 font-semibold space-y-4"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}>
-                          <div className="flex">
-                            <Badge>Kanban</Badge>
-                            <Badge color="red">C#</Badge>
-                          </div>
-                          <div>{task.title}</div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-                <button className="flex justify-center bg-gray-200 p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm">
-                  Новая карточка
-                </button>
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="3">
-            {(provided) => (
-              <div className="bg-[#F4F3F6] rounded-sm w-1/4" {...provided.droppableProps} ref={provided.innerRef}>
-                <div className="p-4">
-                  <h3 className="text-xl mb-4 font-semibold">В процессе</h3>
-                  {tasks['3'].tasks.map((task, index) => (
-                    <Draggable key={task.id} draggableId={task.id} index={index}>
-                      {(provided) => (
-                        <div
-                          className="bg-white rounded-sm mb-2 p-4 font-semibold space-y-4"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}>
-                          <div className="flex">
-                            <Badge>Kanban</Badge>
-                            <Badge color="red">C#</Badge>
-                          </div>
-                          <div>{task.title}</div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-                <button className="flex justify-center bg-gray-200 p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm">
-                  Новая карточка
-                </button>
-              </div>
-            )}
-          </Droppable>
-          <Droppable droppableId="4">
-            {(provided) => (
-              <div className="bg-[#F4F3F6] rounded-sm w-1/4" {...provided.droppableProps} ref={provided.innerRef}>
-                <div className="p-4">
-                  <h3 className="text-xl mb-4 font-semibold">В процессе</h3>
-                  {tasks['4'].tasks.map((task, index) => (
-                    <Draggable key={task.id} draggableId={task.id} index={index}>
-                      {(provided) => (
-                        <div
-                          className="bg-white rounded-sm mb-2 p-4 font-semibold space-y-4"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}>
-                          <div className="flex">
-                            <Badge>Kanban</Badge>
-                            <Badge color="red">C#</Badge>
-                          </div>
-                          <div>{task.title}</div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-                <button className="flex justify-center bg-gray-200 p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm">
-                  Новая карточка
-                </button>
-              </div>
-            )}
-          </Droppable>
+              )}
+            </Droppable>
+          ))}
+          <Dropdown />
         </div>
       </DragDropContext>
-      <Modal title="Редактировать карточку" show={taskModal} onClose={() => showTaskModal(false)}>
-        <h1 className="text-2xl font-semibold h-[500px]">Add discount code to the checkout</h1>
-      </Modal>
+      <EditTaskModal show={taskModal} onClose={() => showTaskModal(false)}/>
     </>
   );
 };

@@ -1,25 +1,45 @@
 ﻿import React from 'react';
+import {PlusIcon} from "@heroicons/react/20/solid";
 
-const AvatarList = () => {
+type Props = {
+  size?: 'sm' | 'normal',
+  onAdd?: () => void
+}
+
+const AvatarList: React.FC<Props> = (props) => {
+  const {
+    onAdd,
+    size = 'normal'
+  } = props;
+  
+  const style = {
+    size: {
+      'sm': 'w-8 h-8',
+      'normal': 'w-10 h-10' 
+    }
+  }
+  
   return (
     <div className="flex -space-x-4">
-      <img className="w-10 h-10 rounded-full border-2 border-white"
+      <img className={`${style.size[size]} rounded-full border-2 border-white`}
            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="" />
-      <img className="w-10 h-10 rounded-full border-2 border-white"
+      <img className={`${style.size[size]} rounded-full border-2 border-white`}
            src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="" />
-      <img className="w-10 h-10 rounded-full border-2 border-white"
+      <img className={`${style.size[size]} rounded-full border-2 border-white`}
            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="" />
-      <img className="w-10 h-10 rounded-full border-2 border-white"
+      <img className={`${style.size[size]} rounded-full border-2 border-white`}
            src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="" />
-      <div className="inline-flex border-2 border-white cursor-pointer overflow-hidden relative justify-center 
-        items-center w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full"
-      >
-        <span className="font-medium text-gray-600 dark:text-gray-300">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-          </svg>
-        </span>
-      </div>
+
+      {props.onAdd && (
+        <div className={`${style.size[size]} inline-flex border cursor-pointer overflow-hidden relative justify-center 
+          items-center bg-white hover:bg-gray-50 rounded-full`} onClick={onAdd}
+        >
+          <span className="font-medium text-gray-600">
+            <PlusIcon className="w-6 h-6" />
+          </span>
+        </div>
+      )}
+      
     </div>
   );
 };

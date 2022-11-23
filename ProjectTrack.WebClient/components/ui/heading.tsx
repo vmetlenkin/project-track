@@ -1,4 +1,5 @@
 ﻿import React from 'react';
+import Container from "./container";
 
 type Props = {
   children: React.ReactNode
@@ -7,9 +8,9 @@ type Props = {
 const Heading: React.FC<Props> = ({ children }) => {
   return (
     <div className="bg-white pt-8 mb-5">
-      <div className="container mx-auto">
+      <Container>
         {children}
-      </div>
+      </Container>
     </div>
   );
 };

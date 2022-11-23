@@ -8,6 +8,7 @@ import Avatar from '../../../components/ui/avatar';
 import Container from '../../../components/ui/container';
 import KanbanBoard from "../../../components/kanban-board/kanban-board";
 import Breadcrumbs from "../../../components/ui/breadcrumbs";
+import AvatarList from "../../../components/ui/avatar-list";
 
 const ProjectPage = () => {
   const router = useRouter();

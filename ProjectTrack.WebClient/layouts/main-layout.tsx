@@ -1,6 +1,7 @@
 ﻿import React from 'react';
 import Head from "next/head";
 import Navbar from '../components/ui/navbar';
+import Sidebar from "../components/ui/sidebar";
 
 type Props = {
   children: React.ReactNode
@@ -17,8 +18,10 @@ const MainLayout: React.FC<Props> = ({ children }) => {
       
       <Navbar />
       
-      <main style={{ marginTop: 61 }}>
-        {children}
+      <main style={{ marginTop: 61 }} className="flex">
+        <div className="flex-1">
+          {children}
+        </div>
       </main>
     </div>
   );
