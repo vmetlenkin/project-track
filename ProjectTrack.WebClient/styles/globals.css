@@ -25,3 +25,7 @@ a {
 .link {
   @apply text-indigo-700 hover:text-indigo-800 cursor-pointer;
 }
+
+#__next {
+  @apply h-screen;
+}
