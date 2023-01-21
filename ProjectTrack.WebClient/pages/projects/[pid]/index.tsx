@@ -9,6 +9,7 @@ import Container from '../../../components/ui/container';
 import KanbanBoard from "../../../components/kanban-board/kanban-board";
 import Breadcrumbs from "../../../components/ui/breadcrumbs";
 import AvatarList from "../../../components/ui/avatar-list";
+import {wrapper} from "../../../redux/store";
 
 const ProjectPage = () => {
   const router = useRouter();
@@ -46,4 +47,19 @@ const ProjectPage = () => {
   );
 };
 
-  export default ProjectPage;
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async (ctx) => {
+      const user = store.getState().user.data;
+
+      if (!user) {
+        return {
+          redirect: {
+            destination: '/login',
+            permanent: false,
+          }
+        };
+      }
+    }
+);
+export default ProjectPage;

@@ -32,7 +32,7 @@ const Button: React.FC<Props> = (props) => {
   };
   
   return (
-    <button onClick={onClick} type="button" className={`${style.color[color]} ${style.size[size]} ${full && style.full} text-white 
+    <button onClick={onClick} type="submit" className={`${style.color[color]} ${style.size[size]} ${full && style.full} text-white 
       font-medium rounded-md text-sm focus:ring-4 focus:outline-none`}> 
       {children}
     </button>

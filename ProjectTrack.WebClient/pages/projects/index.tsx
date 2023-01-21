@@ -5,6 +5,7 @@ import Card from '../../components/ui/card';
 import Container from '../../components/ui/container';
 import Button from "../../components/ui/button";
 import NewProjectModal from "../../components/new-project-modal/new-project-modal";
+import {wrapper} from "../../redux/store";
 
 const ProjectsPage = () => {
   const [newProjectModal, showNewProjectModal] = useState(false);
@@ -25,4 +26,20 @@ const ProjectsPage = () => {
   );
 };
 
+export const getServerSideProps = wrapper.getServerSideProps(
+  (store) =>
+    async (ctx) => {
+      const user = store.getState().user.data;
+      console.log(user);
+
+      if (!user) {
+        return {
+          redirect: {
+            destination: '/login',
+            permanent: false,
+          }
+        };
+      }
+    }
+);
 export default ProjectsPage;

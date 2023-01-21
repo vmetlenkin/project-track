@@ -31,7 +31,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
             return Errors.DuplicateEmail;
         }
 
-        var user = User.Create(request.Email, request.Password);
+        var user = User.Create(request.Email, request.FirstName, request.LastName, request.Password);
 
         _userRepository.Add(user);
 

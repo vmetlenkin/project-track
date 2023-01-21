@@ -8,6 +8,7 @@ using ProjectTrack.API.Controllers.Common;
 using ProjectTrack.Application.Authentication;
 using ProjectTrack.Application.Authentication.Commands;
 using ProjectTrack.Application.Authentication.Commands.Register;
+using ProjectTrack.Application.Authentication.Queries.GetUser;
 using ProjectTrack.Application.Authentication.Queries.Login;
 
 namespace ProjectTrack.API.Controllers;
@@ -26,24 +27,35 @@ public class AuthenticationController : ApiController
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(AuthenticationRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request)
     {
         var command = _mapper.Map<RegisterCommand>(request);
         ErrorOr<AuthenticationResult> authResult = await _mediator.Send(command);
 
         return authResult.Match(
-                response => Ok(_mapper.Map<AuthenticationResponse>(response)),
+                response => Ok(_mapper.Map<RegisterResponse>(response)),
                 errors => Problem(errors));
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(AuthenticationRequest request)
+    public async Task<IActionResult> Login(LoginRequest request)
     {
         var query = _mapper.Map<LoginQuery>(request);
         ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
 
         return authResult.Match(
-                response => Ok(_mapper.Map<AuthenticationResponse>(response)),
+                response => Ok(_mapper.Map<LoginResponse>(response)),
                 errors => Problem(errors));
+    }
+    
+    [HttpGet("getuser")]
+    public async Task<IActionResult> GetUser(string token)
+    {
+        var query = new GetUserQuery(token);
+        ErrorOr<AuthenticationResult> authResult = await _mediator.Send(query);
+
+        return authResult.Match(
+            authResult => Ok(authResult),
+            errors => Problem(errors));
     }
 }

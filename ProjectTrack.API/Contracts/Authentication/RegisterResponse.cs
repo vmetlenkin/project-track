@@ -1,6 +1,6 @@
 namespace ProjectTrack.API.Contracts.Authentication;
 
-public record AuthenticationResponse(
+public record RegisterResponse(
     Guid Id,
     string Email,
     string Password,

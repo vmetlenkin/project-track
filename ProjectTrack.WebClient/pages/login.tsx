@@ -1,18 +1,43 @@
-﻿import React from 'react';
+﻿import React, {useState} from 'react';
 import Button from "../components/ui/button";
 import Link from "next/link";
 import TextInput from "../components/ui/textinput";
+import { useAppDispatch } from "../redux/hooks";
+import {FormProvider, useForm} from "react-hook-form";
+import {setCookie} from "nookies";
+import {UserApi} from "../api";
+import {setUserData} from "../redux/slices/user";
+import FormField from "../components/ui/form-field";
+import Alert from "../components/ui/alert";
+import {useRouter} from "next/router";
 
 const Login = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
+  const form = useForm({
+    mode: "onChange"
+  });
+
+  const [error, setError] = useState('');
+
+  const onSubmit = async (dto: any) => {
+    try {
+      const data = await UserApi.login(dto);
+      setCookie(null, 'token', data.token, {
+        maxAge: 30 * 24 * 60 * 60,
+        path: '/'
+      });
+      setError('');
+      dispatch(setUserData(data));
+      router.push('/projects');
+    } catch (err: any) {
+      setError(err.response.data.title);
+      console.warn(err);
+    }
+  }
+  
   return (
     <div className="flex min-h-full bg-white">
-      <div className="relative hidden w-0 flex-1 lg:block">
-        <img
-          className="absolute inset-0 h-full w-full object-cover"
-          src="https://images.unsplash.com/photo-1505904267569-f02eaeb45a4c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80"
-          alt=""
-        />
-      </div>
       <div className="flex flex-1 flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 2xl:px-64 w-1/2">
         <div className="mx-auto w-full w-1/2">
           <div>
@@ -25,22 +50,20 @@ const Login = () => {
           </div>
 
           <div className="mt-8">
-            <div>
-              <div>
-                <div className="mt-6">
-                  <form action="#" method="POST" className="space-y-6">
-                    <TextInput id="email" type="email" label="Email" />
-                    <TextInput id="password" type="password" label="Пароль" />
-
-                    <div className="flex">
-                      <Button>Войти</Button>
-                    </div>
-                  </form>
-                </div>
-              </div>
+            <div className="mt-6">
+              <FormProvider {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" method="POST">
+                  <FormField name="email" label="Email" type="email" />
+                  <FormField name="password" label="Пароль" type="password" />
+                  {error && <Alert>{error}</Alert>}
+                  <Button>Войти</Button>
+                </form>
+              </FormProvider>
             </div>
           </div>
         </div>
+      </div>
+      <div className="relative hidden w-0 flex-1 lg:block bg-indigo-700">
       </div>
     </div>
   );

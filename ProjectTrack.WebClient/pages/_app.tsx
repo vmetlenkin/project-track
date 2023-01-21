@@ -30,4 +30,3 @@ App.getInitialProps = wrapper.getInitialAppProps(
   });
 
 export default wrapper.withRedux(App);
-
