@@ -16,11 +16,11 @@ const Card = () => {
           <Dropdown />
         </div>
       </div>
-      <Link href={{pathname: `/projects/1`, query: { page: 'tasks' }} }>
+      <Link href={{pathname: `/projects/1`, query: { page: 'kanban' }} }>
         <h5 className="text-xl font-semibold mb-4 hover:text-indigo-700">Разработка сайта</h5>
       </Link>
       <p className="mb-4">
-        Небольшое описание проекта, чтобы описать что будет...
+        Небольшое описание проекта...
       </p>
       <div className="flex justify-between">
         <div>

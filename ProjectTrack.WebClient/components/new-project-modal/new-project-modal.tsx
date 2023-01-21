@@ -3,13 +3,18 @@ import Modal from "../ui/modal";
 import AvatarList from "../ui/avatar-list";
 import Badge from "../ui/badge";
 
-const AuthModal = () => {
+type Props = {
+  show: boolean,
+  onClose: () => void
+}
+
+const NewProjectModal: React.FC<Props> = (props) => {
   const [showId, setShowId] = useState(false);
   const [name, setName] = useState('');
   const [projectId, setProjectId] = useState('');
   
   return (
-    <Modal title="Создать проект">
+    <Modal title="Создать проект" show={props.show} onClose={props.onClose}>
       <div className="px-6">
         <input
           type="text"
@@ -28,11 +33,11 @@ const AuthModal = () => {
             onInput={(event: any) => setProjectId(event.target.value)}
           />
           <span className="inline-flex items-center p-1 mr-2 text-sm font-semibold text-green-800 bg-green-100 rounded-full">
-                  <svg aria-hidden="true" className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"
-                       xmlns="http://www.w3.org/2000/svg"><path
-                    d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg>
-                  <span className="sr-only">Icon description</span>
-                </span>
+            <svg aria-hidden="true" className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"
+                 xmlns="http://www.w3.org/2000/svg"><path
+              d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"></path></svg>
+            <span className="sr-only">Icon description</span>
+          </span>
         </div>
       </div>
       <div className="p-6 border-b">
@@ -65,4 +70,4 @@ const AuthModal = () => {
   );
 };
 
-export default AuthModal;
+export default NewProjectModal;

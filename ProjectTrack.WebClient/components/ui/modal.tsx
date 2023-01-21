@@ -29,7 +29,7 @@ const Modal: React.FC<Props> & SubComponents = ({ title, children, show, onClose
                 hover:bg-gray-200 hover:text-gray-900 rounded-md text-sm p-1.5 ml-auto inline-flex items-center"
               >
                 <XMarkIcon className="w-6 h-6" />
-                <span className="sr-only">Close modal</span>
+                <span className="sr-only">Закрыть окно</span>
               </button>
             </div>
             {children}

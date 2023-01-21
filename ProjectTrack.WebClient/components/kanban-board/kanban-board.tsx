@@ -168,7 +168,6 @@ const KanbanBoard = () => {
               )}
             </Droppable>
           ))}
-          <Dropdown />
         </div>
       </DragDropContext>
       <EditTaskModal show={taskModal} onClose={() => showTaskModal(false)}/>

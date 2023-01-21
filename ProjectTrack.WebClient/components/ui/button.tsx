@@ -4,7 +4,8 @@ type Props = {
   children: React.ReactNode,
   color?: 'indigo' | 'green' | 'red'
   size?: 'sm' | 'md' | 'lg',
-  full?: boolean
+  full?: boolean,
+  onClick?: () => void
 }
 
 const Button: React.FC<Props> = (props) => {
@@ -12,7 +13,8 @@ const Button: React.FC<Props> = (props) => {
     children,
     color = 'indigo',
     size = 'md',
-    full
+    full,
+    onClick
   } = props;
 
   const style = {
@@ -23,15 +25,15 @@ const Button: React.FC<Props> = (props) => {
     },
     size: {
       'sm': 'px-5 py-2.5',
-      'md': 'px-20 py-4',
-      'lg': 'px-5 py-2.5'
+      'md': 'px-5 py-2.5',
+      'lg': 'px-20 py-5'
     },
     full: 'w-full'
   };
   
   return (
-    <button type="button" className={`${style.color[color]} ${style.size[size]} ${full && style.full} text-white font-medium rounded-md text-sm focus:ring-4
-      focus:outline-none`}> 
+    <button onClick={onClick} type="button" className={`${style.color[color]} ${style.size[size]} ${full && style.full} text-white 
+      font-medium rounded-md text-sm focus:ring-4 focus:outline-none`}> 
       {children}
     </button>
   );
