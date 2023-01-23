@@ -1,11 +1,13 @@
 ﻿import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import { userReducer } from './slices/user';
 import { createWrapper } from 'next-redux-wrapper';
+import { projectReducer } from "./slices/project";
 
 export function makeStore() {
   return configureStore({
     reducer: {
-      user: userReducer
+      user: userReducer,
+      project: projectReducer
     },
   })
 }

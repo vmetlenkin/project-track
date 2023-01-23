@@ -10,12 +10,15 @@ import {setUserData} from "../redux/slices/user";
 import FormField from "../components/ui/form-field";
 import Alert from "../components/ui/alert";
 import {useRouter} from "next/router";
+import { yupResolver } from "@hookform/resolvers/yup";
+import {LoginFormSchema} from "../utils/validations";
 
 const Login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const form = useForm({
-    mode: "onChange"
+    mode: "onChange",
+    resolver: yupResolver(LoginFormSchema)
   });
 
   const [error, setError] = useState('');

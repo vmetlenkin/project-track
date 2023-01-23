@@ -37,7 +37,7 @@ public class ProjectsController : ApiController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetProjects()
+    public async Task<IActionResult> GetProjects(string? userId)
     {
         var query = new GetProjectsQuery();
         ErrorOr<GetProjectsQueryResult> result = await _mediator.Send(query);

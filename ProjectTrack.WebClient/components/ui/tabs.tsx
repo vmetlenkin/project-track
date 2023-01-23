@@ -7,7 +7,7 @@ type Props = {
 
 const Tabs: React.FC<Props> = ({ tabs }) => {
   return (
-    <div className="border-b border-gray-200">
+    <div className="border-gray-200">
       <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
         {tabs.map(tab => (
           <li key={tab.name} className="mr-2">

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CreateUserDto, LoginDto, UserResponse } from "./types";
+import {CreateProjectDto, CreateUserDto, LoginDto, ProjectResponse, UserResponse} from "./types";
 
 const instance = axios.create({
   baseURL: 'http://localhost:5253'
@@ -19,3 +19,14 @@ export const UserApi = {
     return data;
   }
 };
+
+export const ProjectApi = {
+  async create(dto: CreateProjectDto): Promise<ProjectResponse> {
+    const { data } = await instance.post('/projects', dto);
+    return data;
+  },
+  async getByUserId(): Promise<ProjectResponse[]> {
+    const { data } = await instance.get('/projects');
+    return data.projects;
+  }
+}

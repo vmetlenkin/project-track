@@ -16,3 +16,14 @@ export type UserResponse = {
   nickname: string;
   token: string;
 }
+
+export type CreateProjectDto = {
+  id: string;
+  name: string;
+}
+
+export type ProjectResponse = {
+  id: string;
+  name: string;
+  userId: string;
+}

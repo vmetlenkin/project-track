@@ -1,17 +1,17 @@
-﻿import React, {useState} from 'react';
+﻿import React, { useState } from 'react';
 import Button from "../components/ui/button";
 import Link from "next/link";
-import TextInput from "../components/ui/textinput";
-import {useRouter} from "next/router";
-import {useAppDispatch} from "../redux/hooks";
-import {FormProvider, useForm} from "react-hook-form";
-import {UserApi} from "../api";
-import {setCookie} from "nookies";
-import {setUserData} from "../redux/slices/user";
+import { useRouter } from "next/router";
+import { useAppDispatch } from "../redux/hooks";
+import { FormProvider, useForm } from "react-hook-form";
+import { UserApi } from "../api";
+import { setCookie } from "nookies";
+import { setUserData } from "../redux/slices/user";
 import FormField from "../components/ui/form-field";
 import Alert from "../components/ui/alert";
+import { NextPage } from "next";
 
-const Registration = () => {
+const Registration: NextPage = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const form = useForm({
@@ -20,19 +20,21 @@ const Registration = () => {
 
   const [error, setError] = useState('');
 
-  const onSubmit = async (dto: any) => {
+  const onSubmit = async (dto) => {
     try {
-      const data = await UserApi.register(dto);
-      setCookie(null, 'token', data.token, {
+      const response = await UserApi.register(dto);
+      
+      setCookie(null, 'token', response.token, {
         maxAge: 30 * 24 * 60 * 60,
         path: '/'
       });
+      
       setError('');
-      dispatch(setUserData(data));
-      router.push('/projects');
-    } catch (err: any) {
+      
+      dispatch(setUserData(response));
+      await router.push('/projects');
+    } catch (err) {
       setError(err.response.data.title);
-      console.warn(err);
     }
   }
   
@@ -51,24 +53,21 @@ const Registration = () => {
           </div>
 
           <div className="mt-8">
-            <div className="mt-6">
-              <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" method="POST">
-                  <FormField name="email" label="Email" type="email" />
-                  <FormField name="firstName" label="Имя" type="text" />
-                  <FormField name="lastName" label="Фамилия" type="text" />
-                  <FormField name="password" label="Пароль" type="password" />
-                  {error && <Alert>{error}</Alert>}
-                  <Button>Зарегистрироваться</Button>
-                </form>
-              </FormProvider>
-            </div>
+            <FormProvider {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5" method="POST">
+                <FormField name="email" label="Email" type="email" />
+                <FormField name="firstName" label="Имя" type="text" />
+                <FormField name="lastName" label="Фамилия" type="text" />
+                <FormField name="password" label="Пароль" type="password" />
+                {error && <Alert>{error}</Alert>}
+                <Button>Зарегистрироваться</Button>
+              </form>
+            </FormProvider>
           </div>
 
         </div>
       </div>
-      <div className="relative hidden w-0 flex-1 lg:block bg-indigo-700">
-      </div>
+      <div className="relative hidden w-0 flex-1 lg:block bg-indigo-700"></div>
     </div>
   );
 };
