@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {CreateProjectDto, CreateUserDto, LoginDto, ProjectResponse, UserResponse} from "./types";
+import { CreateProjectDto, CreateTaskResponse, CreateUserDto, LoginDto, ProjectResponse, UserResponse } from "./types";
 
 const instance = axios.create({
   baseURL: 'http://localhost:5253'
@@ -25,8 +25,21 @@ export const ProjectApi = {
     const { data } = await instance.post('/projects', dto);
     return data;
   },
-  async getByUserId(): Promise<ProjectResponse[]> {
-    const { data } = await instance.get('/projects');
+  async getById(id: string): Promise<ProjectResponse> {
+    const { data } = await instance.get(`/projects/${id}`);
+    console.log(data);
+    return data;
+  },
+  async getByUserId(userId: string): Promise<ProjectResponse[]> {
+    const { data } = await instance.get(`/projects?userId=${userId}`);
     return data.projects;
   }
 }
+
+export const TaskApi = {
+  async create(dto): Promise<CreateTaskResponse> {
+    const { data } = await instance.post(`/tasks`, dto);
+    return data;
+  }
+}
+

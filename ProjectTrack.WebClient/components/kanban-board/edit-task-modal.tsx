@@ -29,7 +29,6 @@ const EditTaskModal: React.FC<Props> = (props) => {
           </div>
           <div className="flex-1">
             <div className="flex items-center mb-4 h-6">Описание</div>
-            <Textarea />
           </div>
         </div>
         <div className="flex gap-6 font-semibold">

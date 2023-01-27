@@ -1,8 +1,15 @@
 ﻿import React from 'react';
 import Link from 'next/link';
+import { scalarOptions } from "yaml";
+import Str = scalarOptions.Str;
 
 type Props = {
-  tabs: any[]
+  tabs: {
+    name: string,
+    link: string,
+    active: boolean,
+    text: string
+  }[]
 }
 
 const Tabs: React.FC<Props> = ({ tabs }) => {

@@ -29,6 +29,7 @@ export const userSlice = createSlice({
   }
 });
 
+
 export const { setUserData } = userSlice.actions;
 
 export const selectUserData = (state: AppState) => state.user.data;

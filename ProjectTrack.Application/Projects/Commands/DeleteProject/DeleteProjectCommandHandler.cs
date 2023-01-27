@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using ErrorOr;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities.ProjectModel;
 using ProjectTrack.Domain.Errors;
+using ProjectTrack.Domain.ProjectAggregate;
 
 namespace ProjectTrack.Application.Projects.Commands.DeleteProject;
 
@@ -21,7 +21,7 @@ public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand,
 
     public async Task<ErrorOr<DeleteProjectResult>> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
     {
-        if (_projectRepository.Get(request.projectId) is not Project project)
+        if (_projectRepository.GetById(request.projectId) is not Project project)
         {
             return Errors.ProjectNotFound;
         }

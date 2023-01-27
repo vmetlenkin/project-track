@@ -1,89 +1,31 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useState } from 'react';
 import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
 import Badge from "../ui/badge";
-import Modal from "../ui/modal";
 import EditTaskModal from "./edit-task-modal";
 import Dropdown from "../ui/dropdown";
 import AvatarList from "../ui/avatar-list";
+import CreateTaskModal from "./create-task-modal";
+import { useRouter } from "next/router";
 
-const data = {
-  'tasks': {
-    tasks: [
-      {
-        id: '1',
-        title: "💼 Add discount code to checkout page and something else",
-        date: "Sep 14",
-        type: "Feature Request"
-      },
-      {
-        id: '2',
-        title: "Provide documentation on integrations",
-        date: "Sep 12"
-      },
-      {
-        id: '3',
-        title: "Design shopping cart dropdown",
-        date: "Sep 9",
-        type: "Design"
-      },
-      {
-        id: '4',
-        title: "Design shopping cart dropdown",
-        date: "Sep 9",
-        type: "Design"
-      }
-    ]
-  },
-  'inprocess': {
-    tasks: [
-      {
-        id: '5',
-        title: "💼 Aупкукуукпукп",
-        date: "Sep 14",
-        type: "Feature Request"
-      },
-      {
-        id: '6',
-        title: "укпкуп укп",
-        date: "Sep 12"
-      }
-    ]
-  },
-  '3': {
-    tasks: [
-      {
-        id: '10',
-        title: "💼 Aупкукуукпукп",
-        date: "Sep 14",
-        type: "Feature Request"
-      },
-      {
-        id: '11',
-        title: "укпкуп укп",
-        date: "Sep 12"
-      }
-    ]
-  },
-  '4': {
-    tasks: [
-      {
-        id: '12',
-        title: "💼 Aупкукуукпукп",
-        date: "Sep 14",
-        type: "Feature Request"
-      },
-      {
-        id: '14',
-        title: "укпкуп укп",
-        date: "Sep 12"
-      }
-    ]
-  }
-};
+type Props = {
+  data: any | null
+}
 
-const KanbanBoard = () => {
+const KanbanBoard: React.FC<Props> = ({ data }) => {
+  const router = useRouter();
+  const { pid } = router.query;
+  
   const [columns, updateColumns] = useState(data);
+  
   const [taskModal, showTaskModal] = useState(false);
+  const [createTaskModal, showCreateTaskModal] = useState(false);
+
+  const [currentColumnId, setCurrentColumnId] = useState('');
+
+  const handleCreateTaskClick = (columnId: string) => {
+    setCurrentColumnId(columnId);
+    showCreateTaskModal(true);
+  }
   
   const handleOnDragEnd = (result) => {
     const { source, destination } = result;
@@ -134,7 +76,7 @@ const KanbanBoard = () => {
                   <div className="px-2 py-2">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-xl font-semibold">
-                        <span className="ml-0.5">Новые задачи</span> 
+                        <span className="ml-0.5">{data[0].name}</span> 
                         <span className="text-gray-400 ml-2">{columns[columnId].tasks.length}</span>
                       </h3>
                       <Dropdown />
@@ -161,7 +103,10 @@ const KanbanBoard = () => {
                     ))}
                     {provided.placeholder}
                   </div>
-                  <button className="flex justify-center bg-[#EBEAED] p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm">
+                  <button 
+                    onClick={() => handleCreateTaskClick((columns[columnId].id))} 
+                    className="flex justify-center bg-[#EBEAED] p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm"
+                  >
                     Новая карточка
                   </button>
                 </div>
@@ -170,7 +115,8 @@ const KanbanBoard = () => {
           ))}
         </div>
       </DragDropContext>
-      <EditTaskModal show={taskModal} onClose={() => showTaskModal(false)}/>
+      <EditTaskModal show={taskModal} onClose={() => showTaskModal(false)} />
+      <CreateTaskModal column={currentColumnId} show={createTaskModal} onClose={() => showCreateTaskModal(false)} />
     </>
   );
 };

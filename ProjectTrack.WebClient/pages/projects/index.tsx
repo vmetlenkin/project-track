@@ -1,22 +1,22 @@
 ﻿import React, {useState} from 'react';
 import MainLayout from '../../layouts/main-layout';
 import Heading from '../../components/ui/heading';
-import Card from '../../components/ui/card';
 import Container from '../../components/ui/container';
 import Button from "../../components/ui/button";
 import NewProjectModal from "../../components/new-project-modal/new-project-modal";
 import { wrapper } from "../../redux/store";
-import { ProjectApi } from "../../api";
 import { NextPage } from "next";
 import { ProjectResponse } from "../../api/types";
 import ProjectCard from "../../components/project-card";
+import { useAppSelector } from "../../redux/hooks";
 
 type Props = {
   projects: ProjectResponse[];
 }
 
-const ProjectsPage: NextPage<Props> = ({ projects }) => {
+const ProjectsPage: NextPage<Props> = () => {
   const [newProjectModal, showNewProjectModal] = useState(false);
+  const projects = useAppSelector(state => state.project.data.projectList);
   
   return (
     <MainLayout>
@@ -49,12 +49,7 @@ export const getServerSideProps = wrapper.getServerSideProps(
           }
         };
       }
-
-      const projects = await ProjectApi.getByUserId();
-      
-      return {
-        props: { projects }
-      } 
     }
 );
+
 export default ProjectsPage;

@@ -1,8 +1,9 @@
 using ErrorOr;
 using MediatR;
+using ProjectTrack.Domain.UserAggregate.ValueObjects;
 
 namespace ProjectTrack.Application.Projects.Commands.CreateProject;
 
 public record CreateProjectCommand(
     string Name,
-    Guid UserId) : IRequest<ErrorOr<CreateProjectResult>>;
+    UserId UserId) : IRequest<ErrorOr<CreateProjectResult>>;

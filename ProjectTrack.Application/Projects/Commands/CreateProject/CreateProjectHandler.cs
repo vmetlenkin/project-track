@@ -1,8 +1,8 @@
 using ErrorOr;
 using MediatR;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities.ProjectModel;
 using ProjectTrack.Domain.Errors;
+using ProjectTrack.Domain.ProjectAggregate;
 
 namespace ProjectTrack.Application.Projects.Commands.CreateProject;
 

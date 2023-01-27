@@ -2,8 +2,7 @@ using ErrorOr;
 using MediatR;
 using ProjectTrack.Application.Interfaces.Authentication;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities;
-using ProjectTrack.Domain.Entities.UserModel;
+using ProjectTrack.Domain.Entities.User;
 using ProjectTrack.Domain.Errors;
 
 namespace ProjectTrack.Application.Authentication.Commands.Register;

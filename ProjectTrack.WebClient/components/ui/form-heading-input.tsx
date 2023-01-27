@@ -6,7 +6,7 @@ type Props = {
   placeholder?: string
 }
 
-const FormHeadingInput: React.FC<Props> = ({ name, placeholder= ""}) => {
+const FormHeadingInput: React.FC<Props> = ({ name, placeholder = ""}) => {
   const { register, formState } = useFormContext();
   
   return (

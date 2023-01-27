@@ -1,5 +1,4 @@
-using ProjectTrack.Domain.Entities;
-using ProjectTrack.Domain.Entities.UserModel;
+using ProjectTrack.Domain.Entities.User;
 
 namespace ProjectTrack.Application.Interfaces.Authentication;
 

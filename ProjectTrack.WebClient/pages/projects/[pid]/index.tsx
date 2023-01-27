@@ -10,10 +10,15 @@ import KanbanBoard from "../../../components/kanban-board/kanban-board";
 import Breadcrumbs from "../../../components/ui/breadcrumbs";
 import AvatarList from "../../../components/ui/avatar-list";
 import {wrapper} from "../../../redux/store";
+import { useAppSelector } from "../../../redux/hooks";
+import { ProjectApi } from "../../../api";
+import { setProjectData, setProjectListData } from "../../../redux/slices/project";
 
 const ProjectPage = () => {
   const router = useRouter();
   const { pid, page } = router.query;
+  
+  const project = useAppSelector(state => state.project.data.project);
   
   const tabs = [
     {
@@ -41,7 +46,7 @@ const ProjectPage = () => {
         <Tabs tabs={tabs} />
       </Heading>
       <Container>
-        {page === 'kanban' && <KanbanBoard />}
+        {page === 'kanban' && project && <KanbanBoard data={project.kanbanColumns} />}
       </Container>
     </MainLayout>
   );
@@ -59,6 +64,15 @@ export const getServerSideProps = wrapper.getServerSideProps(
             permanent: false,
           }
         };
+      }
+
+      try {
+        const { pid } = ctx.query;
+        console.log(pid);
+        const projectData = await ProjectApi.getById(pid as string);
+        store.dispatch(setProjectData(projectData));
+      } catch (err) {
+        console.error('Failed to load project data: ' + err);
       }
     }
 );

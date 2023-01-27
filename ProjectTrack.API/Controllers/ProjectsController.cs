@@ -6,9 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectTrack.API.Contracts.Projects;
 using ProjectTrack.API.Controllers.Common;
 using ProjectTrack.Application.Projects.Commands.CreateProject;
-using ProjectTrack.Application.Projects.Commands.CreateTask;
 using ProjectTrack.Application.Projects.Commands.DeleteProject;
+using ProjectTrack.Application.Projects.Queries.GetProject;
 using ProjectTrack.Application.Projects.Queries.GetProjects;
+using ProjectTrack.Domain.ProjectAggregate.ValueObjects;
+using ProjectTrack.Domain.UserAggregate.ValueObjects;
 
 namespace ProjectTrack.API.Controllers;
 
@@ -37,9 +39,9 @@ public class ProjectsController : ApiController
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetProjects(string? userId)
+    public async Task<IActionResult> GetProjects([FromQuery] Guid userId)
     {
-        var query = new GetProjectsQuery();
+        var query = new GetProjectsQuery(UserId.Create(userId));
         ErrorOr<GetProjectsQueryResult> result = await _mediator.Send(query);
 
         return result.Match(
@@ -47,37 +49,25 @@ public class ProjectsController : ApiController
             errors => Problem(errors));
     }
     
-    [HttpGet("{projectId:guid}")]
-    public async Task<IActionResult> GetProjectById()
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetProject(Guid id)
     {
-        throw new NotImplementedException();
-    }
-    
-    [HttpDelete("{projectId:guid}")]
-    public async Task<IActionResult> DeleteProject(Guid projectId)
-    {
-        var command = new DeleteProjectCommand(projectId);
-        ErrorOr<DeleteProjectResult> result = await _mediator.Send(command);
+        var query = new GetProjectQuery(ProjectId.Create(id));
+        ErrorOr<GetProjectQueryResult> result = await _mediator.Send(query);
         
         return result.Match(
             response => Ok(response),
             errors => Problem(errors));
     }
     
-    [HttpPost("{projectId:guid}/tasks")]
-    public async Task<IActionResult> CreateTask(Guid projectId)
+    [HttpDelete("{projectId:guid}")]
+    public async Task<IActionResult> DeleteProject(Guid projectId)
     {
-        var command = new CreateTaskCommand(projectId);
-        ErrorOr<CreateTaskResult> result = await _mediator.Send(command);
-
+        var command = new DeleteProjectCommand(ProjectId.Create(projectId));
+        ErrorOr<DeleteProjectResult> result = await _mediator.Send(command);
+        
         return result.Match(
             response => Ok(response),
             errors => Problem(errors));
-    }
-    
-    [HttpDelete("{projectId:guid}/tasks/{taskId:guid}")]
-    public async Task<IActionResult> DeleteTask(Guid projectId)
-    {
-        return Ok(projectId);
     }
 }

@@ -1,25 +1,20 @@
-﻿import React, { useEffect, useRef, useState} from 'react';
+﻿import React from 'react';
+import { useFormContext } from "react-hook-form";
 
-const Textarea = ({ ...etc }) => {
-  const textareaRef = useRef(null);
-  const [currentValue, setCurrentValue ] = useState('22');
+type Props = {
+  name: string,
+  placeholder?: string
+}
 
-  useEffect(() => {
-    textareaRef.current.style.height = "0px";
-    const scrollHeight = textareaRef.current.scrollHeight;
-    textareaRef.current.style.height = scrollHeight + "px";
-  }, [currentValue]);
+const Textarea: React.FC<Props> = ({ name, placeholder = ""}) => {
+  const { register, formState } = useFormContext();
 
   return (
     <textarea
-      ref={textareaRef}
-      className="block overflow-hidden resize-none w-full outline-none font-medium"
-      {...etc}
-      value={currentValue}
-
-      onChange={e=>{
-        setCurrentValue(e.target.value);
-      }}
+      id={name}
+      placeholder={placeholder}
+      {...register(name)}
+      className="w-full outline-none font-medium"
     />
   );
 };

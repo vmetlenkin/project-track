@@ -3,7 +3,7 @@ using MediatR;
 using System.IdentityModel.Tokens.Jwt;
 using ProjectTrack.Application.Interfaces.Authentication;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities.UserModel;
+using ProjectTrack.Domain.Entities.User;
 using ProjectTrack.Domain.Errors;
 
 namespace ProjectTrack.Application.Authentication.Queries.GetUser;

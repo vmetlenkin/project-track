@@ -25,5 +25,16 @@ export type CreateProjectDto = {
 export type ProjectResponse = {
   id: string;
   name: string;
+  kanbanColumns: {
+    tasks: any[]
+  };
   userId: string;
+}
+
+export type CreateTaskResponse = {
+  id: string;
+  columnId: string;
+  projectId: string;
+  title: string;
+  text: string;
 }

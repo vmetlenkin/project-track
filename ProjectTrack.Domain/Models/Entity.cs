@@ -1,4 +1,4 @@
-﻿namespace ProjectTrack.Domain.Entities;
+﻿namespace ProjectTrack.Domain.Models;
 
 public class Entity<TId> : IEquatable<Entity<TId>>
     where TId : notnull
