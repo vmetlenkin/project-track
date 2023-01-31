@@ -4,7 +4,7 @@ namespace ProjectTrack.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {
-    protected readonly DatabaseContext _context;
+    private readonly DatabaseContext _context;
 
     public UnitOfWork(DatabaseContext context)
     {

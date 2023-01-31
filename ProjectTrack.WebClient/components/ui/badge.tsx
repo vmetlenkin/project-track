@@ -19,7 +19,8 @@ const Badge: React.FC<Props> = (props) => {
   }
   
   return (
-    <span className={`${theme[color]} inline-flex text-sm font-medium mr-2 px-2 py-1 rounded`}>
+    <span className={`${theme[color]} inline-flex text-sm font-medium mr-2 px-2 py-1 rounded-md dark:bg-transparent 
+      dark:text-white dark:border dark:border-gray-600`}>
       {children}
       {props.close && (
         <button type="button" className="inline-flex items-center p-0.5 ml-2 text-sm bg-transparent 

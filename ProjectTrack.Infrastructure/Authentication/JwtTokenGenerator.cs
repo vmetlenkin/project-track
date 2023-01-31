@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ProjectTrack.Application.Interfaces.Authentication;
-using ProjectTrack.Domain.Entities.User;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Infrastructure.Authentication;
 

@@ -1,14 +1,14 @@
-﻿using ProjectTrack.Domain.ProjectAggregate;
-using ProjectTrack.Domain.ProjectAggregate.ValueObjects;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
+﻿
+
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Interfaces.Persistence;
 
 public interface IProjectRepository
 {
-    Project? GetById(ProjectId id);
+    Project? GetById(Guid id);
     void Add(Project project);
     IReadOnlyList<Project> GetAll();
-    IReadOnlyList<Project> GetByUserId(UserId userId);
+    IReadOnlyList<Project> GetByUserId(Guid userId);
     void Remove(Project projectId);
 }

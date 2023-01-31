@@ -9,8 +9,6 @@ using ProjectTrack.Application.Projects.Commands.CreateProject;
 using ProjectTrack.Application.Projects.Commands.DeleteProject;
 using ProjectTrack.Application.Projects.Queries.GetProject;
 using ProjectTrack.Application.Projects.Queries.GetProjects;
-using ProjectTrack.Domain.ProjectAggregate.ValueObjects;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
 
 namespace ProjectTrack.API.Controllers;
 
@@ -41,7 +39,7 @@ public class ProjectsController : ApiController
     [HttpGet]
     public async Task<IActionResult> GetProjects([FromQuery] Guid userId)
     {
-        var query = new GetProjectsQuery(UserId.Create(userId));
+        var query = new GetProjectsQuery(userId);
         ErrorOr<GetProjectsQueryResult> result = await _mediator.Send(query);
 
         return result.Match(
@@ -52,7 +50,7 @@ public class ProjectsController : ApiController
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetProject(Guid id)
     {
-        var query = new GetProjectQuery(ProjectId.Create(id));
+        var query = new GetProjectQuery(id);
         ErrorOr<GetProjectQueryResult> result = await _mediator.Send(query);
         
         return result.Match(
@@ -63,7 +61,7 @@ public class ProjectsController : ApiController
     [HttpDelete("{projectId:guid}")]
     public async Task<IActionResult> DeleteProject(Guid projectId)
     {
-        var command = new DeleteProjectCommand(ProjectId.Create(projectId));
+        var command = new DeleteProjectCommand(projectId);
         ErrorOr<DeleteProjectResult> result = await _mediator.Send(command);
         
         return result.Match(

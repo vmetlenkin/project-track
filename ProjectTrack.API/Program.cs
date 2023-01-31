@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using ProjectTrack.API.Mapping;
 using ProjectTrack.Application;
 using ProjectTrack.Infrastructure;
@@ -16,7 +17,9 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(x =>
+    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
+;
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddMappings();

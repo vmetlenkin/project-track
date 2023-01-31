@@ -1,5 +1,5 @@
 ﻿import { ProjectResponse } from "../../api/types";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import { AppState, AppThunk } from "../store";
 import { ProjectApi } from "../../api";
@@ -30,9 +30,6 @@ export const projectSlice = createSlice({
     },
     addProject: (state, action: PayloadAction<ProjectResponse>) => {
       state.data.projectList = [...state.data.projectList, action.payload];
-    },
-    addTaskCard: (state, action: PayloadAction<any>) => {
-      state.data.project.kanbanColumns[3].tasks = [...state.data.project.kanbanColumns[3].tasks, action.payload];
     }
   },
   extraReducers: {
@@ -52,7 +49,17 @@ export const fetchProjectsByUserId = (userId: string): AppThunk =>
     dispatch(projectSlice.actions.setProjectListData(projects));
 };
 
-export const { setProjectListData, setProjectData, addProject, addTaskCard } = projectSlice.actions;
+export const fetchProjectById = (id: string): AppThunk =>
+  async dispatch => {
+    try {
+      const project = await ProjectApi.getById(id);
+      dispatch(projectSlice.actions.setProjectData(project));
+    } catch (err) {
+      console.error(err);
+    }
+};
+
+export const { setProjectListData, setProjectData, addProject } = projectSlice.actions;
 
 export const selectProjectData = (state: AppState) => state.project.data;
 

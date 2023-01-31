@@ -1,9 +1,7 @@
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
-
 namespace ProjectTrack.Application.Authentication;
 
 public record AuthenticationResult(
-    UserId Id,
+    Guid Id,
     string Email,
     string Password,
     string Token);

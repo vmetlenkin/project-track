@@ -1,11 +1,10 @@
-using ProjectTrack.Domain.Entities.User;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Interfaces.Persistence;
 
 public interface IUserRepository
 {
-    User? Get(UserId id);
+    User? Get(Guid id);
     User? GetByEmail(string email);
     void Add(User user);
 }

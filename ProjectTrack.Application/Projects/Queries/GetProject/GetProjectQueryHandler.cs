@@ -14,15 +14,23 @@ public class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, ErrorOr<G
         _projectRepository = projectRepository;
     }
 
-    public async Task<ErrorOr<GetProjectQueryResult>> Handle(GetProjectQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<GetProjectQueryResult>> Handle(
+        GetProjectQuery request, 
+        CancellationToken cancellationToken)
     {
+        await Task.CompletedTask;
+        
         var project = _projectRepository.GetById(request.Id);
 
-        if (project == null)
+        if (project is null)
         {
             return Errors.ProjectNotFound;
         }
 
-        return new GetProjectQueryResult(project.Id, project.Name, project.UserId, project.KanbanColumns);
+        return new GetProjectQueryResult(
+            project.Id, 
+            project.Name, 
+            project.UserId,
+            project.KanbanBoards);
     }
 }

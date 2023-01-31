@@ -1,15 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ProjectTrack.Domain.Entities.User;
-using ProjectTrack.Domain.ProjectAggregate;
-using ProjectTrack.Domain.ProjectTaskAggregate;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Infrastructure;
 
 public sealed class DatabaseContext : DbContext
 {
-    public DbSet<Project> Projects { get; set; } = null!;
-    public DbSet<ProjectTask> Tasks { get; set; } = null!;
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Project> Projects { get; set; } = null!;
+    public DbSet<KanbanBoard> KanbanBoards { get; set; } = null!;
+    public DbSet<KanbanColumn> KanbanColumns { get; set; } = null!;
+    public DbSet<KanbanTask> KanbanTasks { get; set; } = null!;
 
     public DatabaseContext(DbContextOptions<DatabaseContext> options) 
         : base(options)

@@ -14,7 +14,7 @@ const Textarea: React.FC<Props> = ({ name, placeholder = ""}) => {
       id={name}
       placeholder={placeholder}
       {...register(name)}
-      className="w-full outline-none font-medium"
+      className="w-full outline-none font-medium bg-transparent"
     />
   );
 };

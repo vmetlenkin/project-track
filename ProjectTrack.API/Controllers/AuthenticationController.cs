@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using ProjectTrack.API.Contracts.Authentication;
 using ProjectTrack.API.Controllers.Common;
 using ProjectTrack.Application.Authentication;
-using ProjectTrack.Application.Authentication.Commands;
 using ProjectTrack.Application.Authentication.Commands.Register;
 using ProjectTrack.Application.Authentication.Queries.GetUser;
 using ProjectTrack.Application.Authentication.Queries.Login;

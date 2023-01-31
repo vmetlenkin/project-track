@@ -1,7 +1,5 @@
 ﻿using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities;
-using ProjectTrack.Domain.Entities.User;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Infrastructure.Repositories;
 
@@ -14,7 +12,7 @@ public class UserRepository : IUserRepository
         _context = context;
     }
     
-    public User? Get(UserId id)
+    public User? Get(Guid id)
     {
         return _context.Users.FirstOrDefault(user => user.Id == id);
     }

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { CreateProjectDto, CreateTaskResponse, CreateUserDto, LoginDto, ProjectResponse, UserResponse } from "./types";
+import { KanbanBoard } from '../types/kanban-board';
 
 const instance = axios.create({
   baseURL: 'http://localhost:5253'
@@ -36,10 +37,21 @@ export const ProjectApi = {
   }
 }
 
+export const KanbanApi = {
+  async getById(id: string): Promise<KanbanBoard> {
+    const { data } = await instance.get(`/kanban?id=${id}`);
+    return data;
+  }
+}
+
 export const TaskApi = {
   async create(dto): Promise<CreateTaskResponse> {
     const { data } = await instance.post(`/tasks`, dto);
     return data;
-  }
+  },
+  async moveKanbanTask(dto): Promise<CreateTaskResponse> {
+    const { data } = await instance.post(`/tasks/changePosition`, dto);
+    return data;
+  },
 }
 

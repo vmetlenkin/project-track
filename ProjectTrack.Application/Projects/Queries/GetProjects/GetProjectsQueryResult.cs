@@ -1,4 +1,4 @@
-﻿using ProjectTrack.Domain.ProjectAggregate;
+﻿using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Projects.Queries.GetProjects;
 

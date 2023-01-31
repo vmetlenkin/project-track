@@ -19,10 +19,10 @@ const Modal: React.FC<Props> & SubComponents = ({ title, children, show, onClose
   return (
     <div>
       <div className={`${show ? 'fixed' : 'hidden'} flex justify-center items-center bg-black bg-opacity-50 
-        overflow-y-auto overflow-x-hiddenx top-0 right-0 left-0 z-50 p-4 w-full md:inset-0 h-modal md:h-full`}
+        overflow-y-auto overflow-x-hiddenx top-0 right-0 left-0 z-50 p-4 w-full md:inset-0 h-modal md:h-full backdrop-blur-sm`}
       >
         <div className="relative w-full max-w-2xl h-full md:h-auto">
-          <div className="relative bg-white rounded-md shadow">
+          <div className="relative bg-white dark:bg-zinc-700 rounded-sm shadow">
             <div className="flex justify-between items-center py-4 pl-6 pr-4 rounded-t">
               <Badge>{title}</Badge>
               <button type="button" onClick={onClose} className="text-gray-400 bg-transparent 

@@ -1,11 +1,9 @@
-﻿using ProjectTrack.Domain.ProjectAggregate.Entities;
-using ProjectTrack.Domain.ProjectAggregate.ValueObjects;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
+﻿using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Projects.Queries.GetProject;
 
 public record GetProjectQueryResult(
-    ProjectId Id,
+    Guid Id,
     string Name,
-    UserId UserId,
-    IReadOnlyList<KanbanColumn> KanbanColumns);
+    Guid UserId,
+    IReadOnlyList<KanbanBoard> KanbanBoards);

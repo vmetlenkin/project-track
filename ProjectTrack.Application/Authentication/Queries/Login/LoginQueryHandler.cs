@@ -2,7 +2,6 @@ using ErrorOr;
 using MediatR;
 using ProjectTrack.Application.Interfaces.Authentication;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities.User;
 using ProjectTrack.Domain.Errors;
 
 namespace ProjectTrack.Application.Authentication.Queries.Login;
@@ -12,20 +11,23 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly IUserRepository _userRepository;
 
-    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+    public LoginQueryHandler(
+        IJwtTokenGenerator jwtTokenGenerator, 
+        IUserRepository userRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
         _userRepository = userRepository;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(
+        LoginQuery request, 
+        CancellationToken cancellationToken)
     {
-        if (_userRepository.GetByEmail(request.Email) is not User user)
-        {
-            return Errors.Authentication.InvalidCredentials;
-        }
+        await Task.CompletedTask;
 
-        if (user.Password != request.Password)
+        var user = _userRepository.GetByEmail(request.Email);
+        
+        if (user is null || user.Password != request.Password)
         {
             return Errors.Authentication.InvalidCredentials;
         }

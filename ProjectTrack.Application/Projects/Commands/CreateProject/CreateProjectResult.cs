@@ -1,9 +1,6 @@
-using ProjectTrack.Domain.ProjectAggregate.ValueObjects;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
-
 namespace ProjectTrack.Application.Projects.Commands.CreateProject;
 
 public record CreateProjectResult(
-    ProjectId Id,
+    Guid Id,
     string Name,
-    UserId UserId);
+    Guid UserId);

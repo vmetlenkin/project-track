@@ -15,7 +15,7 @@ const FormHeadingInput: React.FC<Props> = ({ name, placeholder = ""}) => {
       id={name}
       placeholder={placeholder}
       {...register(name)}
-      className="text-2xl font-semibold outline-none w-full mb-2"
+      className="text-2xl font-semibold outline-none w-full mb-2 bg-transparent"
     />
   );
 };

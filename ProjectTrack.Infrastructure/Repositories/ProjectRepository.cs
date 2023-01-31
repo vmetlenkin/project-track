@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.ProjectAggregate;
-using ProjectTrack.Domain.ProjectAggregate.ValueObjects;
-using ProjectTrack.Domain.UserAggregate.ValueObjects;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Infrastructure.Repositories;
 
@@ -15,10 +13,11 @@ public class ProjectRepository : IProjectRepository
         _context = context;
     }
 
-    public Project? GetById(ProjectId id)
+    public Project? GetById(Guid id)
     {
         return _context.Projects
-            .Include(p => p.KanbanColumns)
+            .Include(p => p.KanbanBoards)
+            .ThenInclude(b => b.Columns)
             .FirstOrDefault(p => p.Id == id);
     }
 
@@ -31,11 +30,10 @@ public class ProjectRepository : IProjectRepository
     public IReadOnlyList<Project> GetAll()
     {
         return _context.Projects
-            .Include(p => p.KanbanColumns)
             .ToList();
     }
 
-    public IReadOnlyList<Project> GetByUserId(UserId userId)
+    public IReadOnlyList<Project> GetByUserId(Guid userId)
     {
         return _context.Projects
             .Where(p => p.UserId == userId)

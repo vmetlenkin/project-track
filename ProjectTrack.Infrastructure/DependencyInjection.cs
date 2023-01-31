@@ -22,7 +22,9 @@ public static class DependencyInjection
         
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IProjectRepository, ProjectRepository>();
-        services.AddScoped<IProjectTaskRepository, ProjectTaskRepository>();
+        services.AddScoped<IKanbanBoardRepository, KanbanBoardRepository>();
+        services.AddScoped<IKanbanColumnRepository, KanbanColumnRepository>();
+        services.AddScoped<IKanbanTaskRepository, KanbanTaskRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         services.AddDbContext<DatabaseContext>(c =>

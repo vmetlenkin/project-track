@@ -14,20 +14,20 @@ const AvatarList: React.FC<Props> = (props) => {
   
   const style = {
     size: {
-      'sm': 'w-8 h-8',
+      'sm': 'w-10 h-10',
       'normal': 'w-10 h-10' 
     }
   }
   
   return (
     <div className="flex -space-x-4">
-      <img className={`${style.size[size]} rounded-full border-2 border-white`}
+      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="" />
-      <img className={`${style.size[size]} rounded-full border-2 border-white`}
+      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
            src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="" />
-      <img className={`${style.size[size]} rounded-full border-2 border-white`}
+      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
            src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="" />
-      <img className={`${style.size[size]} rounded-full border-2 border-white`}
+      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
            src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="" />
 
       {props.onAdd && (

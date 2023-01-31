@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using ErrorOr;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.ProjectAggregate;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Projects.Queries.GetProjects;
 

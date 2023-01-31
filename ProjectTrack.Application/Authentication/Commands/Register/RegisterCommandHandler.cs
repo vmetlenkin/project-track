@@ -2,8 +2,8 @@ using ErrorOr;
 using MediatR;
 using ProjectTrack.Application.Interfaces.Authentication;
 using ProjectTrack.Application.Interfaces.Persistence;
-using ProjectTrack.Domain.Entities.User;
 using ProjectTrack.Domain.Errors;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Authentication.Commands.Register;
 
@@ -23,7 +23,9 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<AuthenticationResult>> Handle(
+        RegisterCommand request, 
+        CancellationToken cancellationToken)
     {
         if (_userRepository.GetByEmail(request.Email) is not null)
         {

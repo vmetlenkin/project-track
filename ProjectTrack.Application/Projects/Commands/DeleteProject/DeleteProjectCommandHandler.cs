@@ -2,7 +2,6 @@
 using ErrorOr;
 using ProjectTrack.Application.Interfaces.Persistence;
 using ProjectTrack.Domain.Errors;
-using ProjectTrack.Domain.ProjectAggregate;
 
 namespace ProjectTrack.Application.Projects.Commands.DeleteProject;
 
@@ -19,9 +18,13 @@ public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand,
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<ErrorOr<DeleteProjectResult>> Handle(DeleteProjectCommand request, CancellationToken cancellationToken)
+    public async Task<ErrorOr<DeleteProjectResult>> Handle(
+        DeleteProjectCommand request, 
+        CancellationToken cancellationToken)
     {
-        if (_projectRepository.GetById(request.projectId) is not Project project)
+        var project = _projectRepository.GetById(request.ProjectId);
+        
+        if (project is null)
         {
             return Errors.ProjectNotFound;
         }
@@ -30,6 +33,6 @@ public class DeleteProjectCommandHandler : IRequestHandler<DeleteProjectCommand,
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         
-        return new DeleteProjectResult();
+        return new DeleteProjectResult(project.Id);
     }
 }

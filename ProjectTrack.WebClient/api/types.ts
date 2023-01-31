@@ -25,9 +25,7 @@ export type CreateProjectDto = {
 export type ProjectResponse = {
   id: string;
   name: string;
-  kanbanColumns: {
-    tasks: any[]
-  };
+  kanbanBoards: any[]
   userId: string;
 }
 

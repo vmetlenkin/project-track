@@ -36,20 +36,19 @@ const ProjectsPage: NextPage<Props> = () => {
   );
 };
 
-export const getServerSideProps = wrapper.getServerSideProps(
-  (store) =>
-    async (ctx) => {
-      const user = store.getState().user.data;
+export const getServerSideProps = wrapper.getServerSideProps((store) =>
+  async () => {
+    const user = store.getState().user.data;
 
-      if (!user) {
-        return {
-          redirect: {
-            destination: '/login',
-            permanent: false,
-          }
-        };
-      }
+    if (!user) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: false,
+        }
+      };
     }
+  }
 );
 
 export default ProjectsPage;
