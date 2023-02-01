@@ -3,12 +3,12 @@ import MainLayout from '../../layouts/main-layout';
 import Heading from '../../components/ui/heading';
 import Container from '../../components/ui/container';
 import Button from "../../components/ui/button";
-import NewProjectModal from "../../components/new-project-modal/new-project-modal";
 import { wrapper } from "../../redux/store";
 import { NextPage } from "next";
-import { ProjectResponse } from "../../api/types";
 import ProjectCard from "../../components/project-card";
 import { useAppSelector } from "../../redux/hooks";
+import NewProjectModal from "../../components/NewProjectModal/NewProjectModal";
+import { ProjectResponse } from "../../redux/api/project-api";
 
 type Props = {
   projects: ProjectResponse[];

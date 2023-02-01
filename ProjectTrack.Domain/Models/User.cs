@@ -9,9 +9,10 @@ public sealed class User : Entity<Guid>
     public string LastName { get; private set; }
     public string Password { get; private set; }
     public IReadOnlyList<Project> Projects => _projects.AsReadOnly();
-
-    // Empty constructor for EF CORE
-    private User() { }
+    
+    private User()
+    {
+    }
 
     private User(Guid id, string email, string firstName, string lastName, string password) : base(id)
     {

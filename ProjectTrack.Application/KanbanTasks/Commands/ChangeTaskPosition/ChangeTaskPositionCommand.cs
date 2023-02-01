@@ -8,4 +8,5 @@ public record
     Guid Id,
     Guid SourceColumnId,
     Guid DestinationColumnId,
+    int SourcePosition,
     int DestinationPosition) : IRequest<ErrorOr<ChangeTaskPositionResult>>;

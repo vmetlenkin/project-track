@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 import { AppState, AppThunk } from "../store";
-import { ProjectApi } from "../../api";
+import { ProjectApi } from "../api/project-api";
 
 export interface ProjectState {
   data: {
@@ -42,21 +42,22 @@ export const projectSlice = createSlice({
   },
 });
 
-export const fetchProjectsByUserId = (userId: string): AppThunk =>
-  async dispatch => {
+export const fetchProjectsByUserId = (userId: string): AppThunk => async dispatch => {
+  try {
     const projects = await ProjectApi.getByUserId(userId);
-
-    dispatch(projectSlice.actions.setProjectListData(projects));
+    dispatch(setProjectListData(projects));
+  } catch (err) {
+    console.error('Could not fetch projects by user id:' + err);
+  }
 };
 
-export const fetchProjectById = (id: string): AppThunk =>
-  async dispatch => {
-    try {
-      const project = await ProjectApi.getById(id);
-      dispatch(projectSlice.actions.setProjectData(project));
-    } catch (err) {
-      console.error(err);
-    }
+export const fetchProjectById = (id: string): AppThunk => async dispatch => {
+  try {
+    const project = await ProjectApi.getById(id);
+    dispatch(setProjectData(project));
+  } catch (err) {
+    console.error('Could not fetch project by id:' + err);
+  }
 };
 
 export const { setProjectListData, setProjectData, addProject } = projectSlice.actions;

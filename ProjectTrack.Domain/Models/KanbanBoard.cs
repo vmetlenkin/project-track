@@ -12,16 +12,13 @@ public class KanbanBoard : Entity<Guid>
     {
     }
 
-    private KanbanBoard(
-        Guid id, 
-        Guid projectId) : base(id)
+    private KanbanBoard(Guid id, Guid projectId) : base(id)
     {
         Id = id;
         ProjectId = projectId;
     }
     
-    public static KanbanBoard Create(
-        Guid projectId)
+    public static KanbanBoard Create(Guid projectId)
     {
         return new(
             Guid.NewGuid(), 

@@ -21,14 +21,10 @@ const AvatarList: React.FC<Props> = (props) => {
   
   return (
     <div className="flex -space-x-4">
-      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
-           src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="" />
-      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
-           src="https://flowbite.com/docs/images/people/profile-picture-2.jpg" alt="" />
-      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
-           src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="" />
-      <img className={`${style.size[size]} rounded-full border-4 border-white dark:border-zinc-900`}
-           src="https://flowbite.com/docs/images/people/profile-picture-4.jpg" alt="" />
+      <div
+        className="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+        <span className="font-medium text-gray-600 dark:text-gray-300">ВМ</span>
+      </div>
 
       {props.onAdd && (
         <div className={`${style.size[size]} inline-flex border cursor-pointer overflow-hidden relative justify-center 

@@ -12,5 +12,8 @@ public static partial class Errors
         public static Error KanbanColumnNotFound => Error.NotFound(
             code: "Kanban.ColumnNotFound",
             description: "Kanban-колонка с данным id не найдена");
+        public static Error NotFound => Error.NotFound(
+            code: "Kanban.NotFound",
+            description: "Неравильно введены данные");
     }
 }

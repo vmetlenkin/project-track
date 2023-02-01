@@ -2,12 +2,12 @@
 import Modal from "../ui/modal";
 import AvatarList from "../ui/avatar-list";
 import Button from "../ui/button";
-import {ProjectApi, UserApi} from "../../api";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import {FormProvider, useForm} from "react-hook-form";
 import FormHeadingInput from "../ui/form-heading-input";
 import { addProject } from "../../redux/slices/project";
 import Textarea from "../ui/textarea";
+import { ProjectApi } from "../../redux/api/project-api";
 
 type Props = {
   show: boolean,
@@ -24,8 +24,6 @@ const NewProjectModal: React.FC<Props> = (props) => {
   
   const handleCreateProject = async (dto) => {
     try {
-      console.log(dto);
-      
       dto.userId = userId;
       const response = await ProjectApi.create(dto);
       dispatch(addProject(response));

@@ -1,30 +1,28 @@
 ﻿import React, { useEffect, useState } from 'react';
-import {DragDropContext, Draggable, Droppable, DropResult} from "@hello-pangea/dnd";
-import Badge from "../ui/badge";
-import Dropdown from "../ui/dropdown";
-import AvatarList from "../ui/avatar-list";
-import { changeTaskCardPosition, fetchKanbanByProject, moveKanbanTask } from '../../redux/slices/kanban';
+import { DragDropContext } from "@hello-pangea/dnd";
+import { fetchKanbanBoard, moveKanbanTask } from '../../redux/slices/kanban';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import EditTaskModal from "./components/EditTaskModal";
 import CreateTaskModal from "./components/CreateTaskModal";
-import TaskCard from "./components/TaskCard";
+import Spinner from "../ui/Spinner";
+import KanbanColumn from "./components/KanbanColumn";
 
 type KanbanBoardProps = {
   id: string;
-}
+};
 
 const KanbanBoard: React.FC<KanbanBoardProps> = ({ id }) => {
-  const { board } = useAppSelector(state => state.kanban);
   const dispatch = useAppDispatch();
-
-  // Получаем и загружаем данные доски в store
+  const { board } = useAppSelector(state => state.kanban);
+  
   useEffect(() => {
-    dispatch(fetchKanbanByProject(id))
+    dispatch(fetchKanbanBoard(id))
   }, [dispatch]);
   
   const [editTaskModal, showEditTaskModal] = useState(false);
   const [createTaskModal, showCreateTaskModal] = useState(false);
 
+  // ID колонки
   const [currentColumnId, setCurrentColumnId] = useState('');
 
   const handleCreateTaskClick = (columnId: string) => {
@@ -38,39 +36,20 @@ const KanbanBoard: React.FC<KanbanBoardProps> = ({ id }) => {
   }
 
   if (!board) {
-    return <div>Loading!</div>
+    return <Spinner />
   }
   
   return (
     <>
       <DragDropContext onDragEnd={handleOnDragEnd}>
         <div className="flex gap-4 items-start">
-          {board.columns.map((column, i) => (
-            <Droppable droppableId={column.id} key={column.id}>
-              {(provided) => (
-                <div className="bg-[#F4F3F6] dark:bg-zinc-800 rounded-sm w-1/4" {...provided.droppableProps} ref={provided.innerRef}>
-                  <div className="px-2 py-4">
-                    <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-xl font-semibold">
-                        <span className="ml-0.5">{board.columns[i].name}</span>
-                        <span className="text-gray-400 ml-2">{board.columns[i].tasks.length}</span>
-                      </h3>
-                      <Dropdown />
-                    </div>
-                    {board.columns[i].tasks?.map((task, index) => (
-                      <TaskCard key={task.id} task={task} index={index} edit={() => showEditTaskModal(true)} />
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                  <button
-                    onClick={() => handleCreateTaskClick((board.columns[i].id))}
-                    className="flex justify-center bg-[#EBEAED] dark:bg-indigo-700 dark:hover:bg-indigo-800 p-4 font-medium hover:bg-gray-300 w-full rounded-b-sm"
-                  >
-                    Новая карточка
-                  </button>
-                </div>
-              )}
-            </Droppable>
+          {board.columns.map((column) => (
+            <KanbanColumn
+              key={column.id}
+              column={column} 
+              edit={() => showEditTaskModal(true)} 
+              onCreateTask={() => handleCreateTaskClick(column.id)}
+            />
           ))}
         </div>
       </DragDropContext>

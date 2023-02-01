@@ -4,4 +4,5 @@ public record ChangeTaskPositionRequest(
     Guid Id,
     Guid SourceColumnId,
     Guid DestinationColumnId,
+    int SourcePosition,
     int DestinationPosition);

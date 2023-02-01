@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using ErrorOr;
 using ProjectTrack.Application.Interfaces.Persistence;
+using ProjectTrack.Domain.Errors;
 using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.KanbanTasks.Commands.ChangeTaskPosition;
@@ -26,15 +27,18 @@ public class CreateKanbanTaskHandler : IRequestHandler<ChangeTaskPositionCommand
         CancellationToken cancellationToken)
     {
         var task = _kanbanTaskRepository.GetById(request.Id);
-        var sourcePosition = task.KanbanColumnTaskOrder.Order;
-        
         var sourceColumn = _kanbanColumnRepository.GetById(request.SourceColumnId);
         var destinationColumn = _kanbanColumnRepository.GetById(request.DestinationColumnId);
+
+        if (task is null || sourceColumn is null || destinationColumn is null)
+        {
+            return Errors.Kanban.NotFound;
+        }
 
         ChangeTaskPosition(
             sourceColumn.KanbanColumnTaskOrders, 
             destinationColumn.KanbanColumnTaskOrders,
-            sourcePosition,
+            request.SourcePosition,
             request.DestinationPosition);
 
         task.KanbanColumnTaskOrder.Order = request.DestinationPosition;

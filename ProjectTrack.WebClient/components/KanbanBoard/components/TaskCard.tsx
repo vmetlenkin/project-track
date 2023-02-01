@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import Badge from "../../ui/badge";
 import AvatarList from "../../ui/avatar-list";
 import { Draggable } from "@hello-pangea/dnd";
 import { KanbanColumnTask } from "../../../types/kanban-board";
@@ -10,7 +9,12 @@ type TaskCardProps = {
   edit: () => void;
 };
 
-const TaskCard: React.FC<TaskCardProps> = ({ task, index, edit }) => {
+const TaskCard: React.FC<TaskCardProps> = ({ 
+  task, 
+  index, 
+  edit
+}) => {
+  
   return (
     <Draggable draggableId={task.id} index={index}>
       {(provided) => (
@@ -22,8 +26,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ task, index, edit }) => {
           onClick={edit}
         >
           <div className="flex">
-            <Badge>Kanban</Badge>
-            <Badge color="red">C#</Badge>
+            {/* Теги */}
           </div>
           <div>{task.title}</div>
           <AvatarList size="sm" />

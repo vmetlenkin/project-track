@@ -11,19 +11,14 @@ public sealed class Project : Entity<Guid>
     
     private Project() { }
 
-    private Project(
-        Guid id, 
-        string name, 
-        Guid userId) : base(id)
+    private Project(Guid id, string name, Guid userId) : base(id)
     {
         Id = id;
         Name = name;
         UserId = userId;
     }
 
-    public static Project Create(
-        string name, 
-        Guid userId)
+    public static Project Create(string name, Guid userId)
     {
         return new(
             Guid.NewGuid(), 

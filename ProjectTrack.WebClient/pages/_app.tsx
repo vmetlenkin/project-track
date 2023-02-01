@@ -2,9 +2,10 @@ import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { wrapper } from '../redux/store';
 import { parseCookies } from 'nookies';
-import { ProjectApi, UserApi } from '../api';
 import { setUserData } from '../redux/slices/user';
 import { setProjectListData } from "../redux/slices/project";
+import { UserApi } from "../redux/api/user-api";
+import { ProjectApi } from "../redux/api/project-api";
 
 function App({ Component, pageProps }: AppProps) {
   return (

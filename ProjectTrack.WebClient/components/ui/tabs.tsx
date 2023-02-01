@@ -20,10 +20,10 @@ const Tabs: React.FC<Props> = ({ tabs }) => {
           <li key={tab.name} className="mr-2">
             <Link 
                 href={tab.link} 
-                className={`${tab.active ? 'border-blue-600 active text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 border-transparent'} inline-flex p-4  rounded-t-lg border-b-2 group`}>
+                className={`${tab.active ? 'border-blue-600 active text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 border-transparent'} inline-flex p-4 dark:text-white rounded-t-lg border-b-4 group`}>
               <svg 
                   aria-hidden="true" 
-                  className={`${tab.active ? 'text-blue-600' : 'text-gray-600'} mr-2 w-5 h-5 `} 
+                  className={`${tab.active ? 'text-blue-600' : 'text-gray-600'} mr-2 w-5 h-5 dark:text-white`} 
                   fill="currentColor"
                   viewBox="0 0 20 20" 
                   xmlns="http://www.w3.org/2000/svg">

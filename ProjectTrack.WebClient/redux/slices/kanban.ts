@@ -1,8 +1,9 @@
-import { KanbanBoard, KanbanColumn, KanbanColumnTask } from '../../types/kanban-board';
+import { KanbanBoard, KanbanColumnTask } from '../../types/kanban-board';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { AppState, AppThunk } from '../store';
-import { KanbanApi, TaskApi } from '../../api';
+import { KanbanApi } from "../api/kanban-api";
+import { CreateTaskRequest, MoveKanbanTaskRequest, TaskApi } from "../api/task-api";
 
 export interface KanbanState {
   board: KanbanBoard | null;
@@ -13,7 +14,6 @@ const initialState: KanbanState = {
   board: null,
   isLoading: true
 }
-
 
 export const kanbanSlice = createSlice({
   name: 'kanban',
@@ -62,30 +62,45 @@ export const kanbanSlice = createSlice({
   },
 });
 
-export const fetchKanbanByProject = (id: string): AppThunk => async (dispatch) => {
-  const board = await KanbanApi.getById(id);
-  dispatch(setKanbanBoard(board));
+export const fetchKanbanBoard = (id: string): AppThunk => async (dispatch) => {
+  try {
+    const board = await KanbanApi.getById(id);
+    dispatch(setKanbanBoard(board));
+  } catch (err) {
+    console.error('Could not fetch kanban board: ' + err);
+  }
 };
 
-export const createKanbanTask = (dto): AppThunk => async (dispatch) => {
-  const response = await TaskApi.create(dto);
-  dispatch(addTaskCard(response));
+export const createKanbanTask = (request: CreateTaskRequest): AppThunk => async (dispatch) => {
+  try {
+    const response = await TaskApi.create(request);
+    dispatch(addTaskCard(response));
+  } catch (err) {
+    console.error('Could not create kanban board: ' + err);
+  }
 };
 
-export const moveKanbanTask = (onDragResult): AppThunk => async (dispatch) => {
+export const moveKanbanTask = (onDragResult: any): AppThunk => async (dispatch) => {
   const { source, destination, draggableId } = onDragResult;
 
-  dispatch(changeTaskCardPosition(onDragResult));
-  
-  const dto = {
+  const request: MoveKanbanTaskRequest = {
     id: draggableId,
     sourceColumnId: source.droppableId,
     destinationColumnId: destination.droppableId,
+    sourcePosition: source.index,
     destinationPosition: destination.index
   };
+
+  // Чтобы не было лагов пока что диспатч вызывается раньше запроса
+  dispatch(changeTaskCardPosition(onDragResult));
   
-  const response = await TaskApi.moveKanbanTask(dto);
-  console.log(response);
+  try {
+    const response = await TaskApi.moveKanbanTask(request);
+    // Здесь нужно получить ответ от сервера с позицией карточки
+    // и вызвать диспатч
+  } catch (err) {
+    console.error('Could not move card: ' + err);
+  }
 };
 
 export const { changeTaskCardPosition, setKanbanBoard, addTaskCard } = kanbanSlice.actions;

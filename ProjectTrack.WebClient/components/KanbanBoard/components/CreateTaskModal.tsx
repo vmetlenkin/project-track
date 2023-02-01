@@ -49,7 +49,7 @@ const CreateTaskModal: React.FC<Props> = (props) => {
             <div>
               <FormHeadingInput name="title" placeholder="Название задачи" />
             </div>
-            <div className="py-6 border-b">
+            <div className="py-6 border-b dark:border-zinc-700">
               <div className="text-xs font-semibold text-gray-500 uppercase mb-2">Участники</div>
               <AvatarList />
             </div>
