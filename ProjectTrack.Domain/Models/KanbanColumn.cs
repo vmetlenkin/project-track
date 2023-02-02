@@ -6,26 +6,29 @@ public class KanbanColumn : Entity<Guid>
     public string Name { get; private set; }
     public Guid KanbanBoardId { get; private set; }
     public KanbanBoard KanbanBoard { get; private set; }
+    public int Order { get; private set; }
     public IEnumerable<KanbanColumnTaskOrder> KanbanColumnTaskOrders { get; set; }
 
     private KanbanColumn()
     {
     }
 
-    private KanbanColumn(Guid id, string name, Guid kanbanBoardId) : base(id)
+    private KanbanColumn(Guid id, string name, Guid kanbanBoardId, int order) : base(id)
     {
         Id = id;
         Name = name;
         KanbanBoardId = kanbanBoardId;
+        Order = order;
     }
     
-    public static KanbanColumn Create(Guid kanbanBoardId, string name)
+    public static KanbanColumn Create(Guid kanbanBoardId, string name, int order)
     {
         var id = Guid.NewGuid();
         
         return new(
             id,
             name,
-            kanbanBoardId);
+            kanbanBoardId,
+            order);
     }
 }

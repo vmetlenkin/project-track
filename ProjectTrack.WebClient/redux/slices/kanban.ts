@@ -1,32 +1,59 @@
-import { KanbanBoard, KanbanColumnTask } from '../../types/kanban-board';
+import { KanbanBoard, KanbanColumnTask, KanbanTask } from '../../types/kanban-board';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { HYDRATE } from 'next-redux-wrapper';
 import { AppState, AppThunk } from '../store';
 import { KanbanApi } from "../api/kanban-api";
-import { CreateTaskRequest, MoveKanbanTaskRequest, TaskApi } from "../api/task-api";
+import { CreateTaskRequest, MoveKanbanTaskRequest, TaskApi, UpdateTaskRequest } from "../api/task-api";
 
 export interface KanbanState {
   board: KanbanBoard | null;
+  task: any | null;
   isLoading: boolean;
 }
 
 const initialState: KanbanState = {
   board: null,
-  isLoading: true
+  task: null,
+  isLoading: false
 }
 
 export const kanbanSlice = createSlice({
   name: 'kanban',
   initialState,
   reducers: {
+    setTaskIsLoading: (state, action: PayloadAction<boolean>) => {
+      state.isLoading = action.payload;
+    },
     setKanbanBoard: (state, action: PayloadAction<KanbanBoard | null>) => {
       state.board = action.payload;
+      state.isLoading = false;
+    },
+    setKanbanTask: (state, action: PayloadAction<KanbanTask | null>) => {
+      state.task = action.payload;
       state.isLoading = false;
     },
     addTaskCard: (state, action: PayloadAction<KanbanColumnTask>) => {
       const columns = JSON.parse(JSON.stringify(state.board.columns));
       const index = columns.findIndex(e => e.id === action.payload.kanbanColumnId);
       state.board.columns[index].tasks = [...state.board.columns[index].tasks, action.payload];
+    },
+    updateTaskCard: (state, action: PayloadAction<any>) => {
+      const task = action.payload;
+      const columnIndex = state.board.columns.findIndex(c => c.id === task.kanbanColumnId);
+
+      const oldTask = state.board.columns[columnIndex].tasks[task.order];
+      
+      const updatedTask = { ...oldTask, title: task.title, text: task.id }
+      
+      state.board.columns[columnIndex].tasks[task.order] = updatedTask;
+    },
+    deleteTaskCard: (state, action: PayloadAction<any>) => {
+      const task = action.payload;
+      const columnIndex = state.board.columns.findIndex(c => c.id === task.kanbanColumnId);
+
+      const startColumn = [...state.board.columns[columnIndex].tasks];
+      startColumn.splice(task.order, 1);
+      state.board.columns[columnIndex].tasks = startColumn;
     },
     changeTaskCardPosition: (state, action: PayloadAction<any>) => {
       const { source, destination } = action.payload;
@@ -103,7 +130,45 @@ export const moveKanbanTask = (onDragResult: any): AppThunk => async (dispatch) 
   }
 };
 
-export const { changeTaskCardPosition, setKanbanBoard, addTaskCard } = kanbanSlice.actions;
+export const fetchTask = (id: string): AppThunk => async (dispatch) => {
+  try {
+    dispatch(setTaskIsLoading(true));
+    const response = await TaskApi.getById(id);
+    dispatch(setTaskIsLoading(false));
+    
+    dispatch(setKanbanTask(response));
+  } catch (err) {
+    console.error('Could not fetch kanban task: ' + err);
+  }
+};
+
+export const updateTask = (request: UpdateTaskRequest): AppThunk => async (dispatch) => {
+  try {
+    const response = await TaskApi.updateKanbanTask(request);
+    dispatch(updateTaskCard(response));
+  } catch (err) {
+    console.error('Could not update task: ' + err);
+  }
+};
+
+export const deleteTask = (id: string): AppThunk => async (dispatch) => {
+  try {
+    const response = await TaskApi.deleteKanbanTask(id);
+    dispatch(deleteTaskCard(response));
+  } catch (err) {
+    console.error('Could not delete task: ' + err);
+  }
+};
+
+export const { 
+  setTaskIsLoading,
+  changeTaskCardPosition, 
+  setKanbanTask, 
+  updateTaskCard,
+  deleteTaskCard,
+  setKanbanBoard, 
+  addTaskCard 
+} = kanbanSlice.actions;
 
 export const selectKanbanData = (state: AppState) => state.kanban;
 

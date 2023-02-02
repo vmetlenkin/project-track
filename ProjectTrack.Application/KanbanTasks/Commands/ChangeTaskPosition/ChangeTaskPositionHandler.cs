@@ -26,7 +26,7 @@ public class CreateKanbanTaskHandler : IRequestHandler<ChangeTaskPositionCommand
         ChangeTaskPositionCommand request, 
         CancellationToken cancellationToken)
     {
-        var task = _kanbanTaskRepository.GetById(request.Id);
+        var task = _kanbanTaskRepository.GetWithTaskOrder(request.Id);
         var sourceColumn = _kanbanColumnRepository.GetById(request.SourceColumnId);
         var destinationColumn = _kanbanColumnRepository.GetById(request.DestinationColumnId);
 

@@ -6,14 +6,15 @@ import { KanbanColumn } from "../../../types/kanban-board";
 
 type KanbanColumnProps = {
   column: KanbanColumn;
-  edit: () => void;
   onCreateTask: (string) => void;
+  children: React.ReactNode;
 }
 
 const KanbanColumn: React.FC<KanbanColumnProps> = ({
   column, 
   edit, 
-  onCreateTask 
+  onCreateTask,
+  children
 }) => {
   
   return (
@@ -32,14 +33,7 @@ const KanbanColumn: React.FC<KanbanColumnProps> = ({
               </h3>
               <Dropdown />
             </div>
-            {column.tasks.map((task, index) => (
-              <TaskCard 
-                key={task.id} 
-                task={task} 
-                index={index} 
-                edit={() => edit()} 
-              />
-            ))}
+            {children}
             {provided.placeholder}
           </div>
           <button

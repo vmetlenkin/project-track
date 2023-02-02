@@ -15,5 +15,8 @@ public static partial class Errors
         public static Error NotFound => Error.NotFound(
             code: "Kanban.NotFound",
             description: "Неравильно введены данные");
+        public static Error KanbanTaskNotFound => Error.NotFound(
+            code: "Kanban.TaskNotFound",
+            description: "Карточка не найдена");
     }
 }

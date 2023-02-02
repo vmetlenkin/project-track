@@ -1,17 +1,16 @@
 ﻿import React, {useState} from 'react';
 import Button from "../components/ui/button";
 import Link from "next/link";
-import TextInput from "../components/ui/textinput";
 import { useAppDispatch } from "../redux/hooks";
 import {FormProvider, useForm} from "react-hook-form";
 import {setCookie} from "nookies";
-import {UserApi} from "../api";
 import {setUserData} from "../redux/slices/user";
 import FormField from "../components/ui/form-field";
 import Alert from "../components/ui/alert";
 import {useRouter} from "next/router";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {LoginFormSchema} from "../utils/validations";
+import { UserApi } from "../redux/api/user-api";
 
 const Login = () => {
   const router = useRouter();

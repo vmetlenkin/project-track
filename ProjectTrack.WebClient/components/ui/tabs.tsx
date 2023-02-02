@@ -17,7 +17,7 @@ const Tabs: React.FC<Props> = ({ tabs }) => {
     <div className="border-gray-200">
       <ul className="flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500">
         {tabs.map(tab => (
-          <li key={tab.name} className="mr-2">
+          <li key={tab.text} className="mr-2">
             <Link 
                 href={tab.link} 
                 className={`${tab.active ? 'border-blue-600 active text-blue-600' : 'hover:text-gray-600 hover:border-gray-300 border-transparent'} inline-flex p-4 dark:text-white rounded-t-lg border-b-4 group`}>

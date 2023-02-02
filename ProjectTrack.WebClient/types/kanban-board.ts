@@ -16,3 +16,9 @@ export type KanbanColumnTask = {
   kanbanColumnId: string;
   text: string;
 }
+
+export type KanbanTask = {
+  id: string;
+  title: string;
+  text: string;
+}

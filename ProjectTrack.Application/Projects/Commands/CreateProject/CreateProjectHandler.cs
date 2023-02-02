@@ -34,15 +34,15 @@ public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand,
         var project = Project.Create(request.Name, request.UserId);
         var board = KanbanBoard.Create(project.Id);
         
-        var column1 = KanbanColumn.Create(board.Id, "Не назначены");
+        var column1 = KanbanColumn.Create(board.Id, "Не назначены", 0);
         board.AddColumn(column1);
         
-        var column2 = KanbanColumn.Create(board.Id, "Выполняются");
+        var column2 = KanbanColumn.Create(board.Id, "Выполняются", 1);
         board.AddColumn(column2);
         
-        var column3 = KanbanColumn.Create(board.Id, "Тестируются");
+        var column3 = KanbanColumn.Create(board.Id, "Тестируются", 2);
         board.AddColumn(column3);
-        var column4 = KanbanColumn.Create(board.Id, "Завершены");
+        var column4 = KanbanColumn.Create(board.Id, "Завершены", 3);
         board.AddColumn(column4);
         
         project.AddBoard(board);

@@ -7,6 +7,9 @@ using ProjectTrack.API.Contracts.Tasks;
 using ProjectTrack.API.Controllers.Common;
 using ProjectTrack.Application.KanbanTasks.Commands.ChangeTaskPosition;
 using ProjectTrack.Application.KanbanTasks.Commands.CreateKanbanTask;
+using ProjectTrack.Application.KanbanTasks.Commands.DeleteKanbanTask;
+using ProjectTrack.Application.KanbanTasks.Commands.UpdateKanbanTask;
+using ProjectTrack.Application.KanbanTasks.Queries.GetTaskQuery;
 
 namespace ProjectTrack.API.Controllers;
 
@@ -34,7 +37,18 @@ public class TasksController : ApiController
             errors => Problem(errors));
     }
     
-    [HttpPost("changePosition")]
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetTaskById(Guid id)
+    {
+        var query = new GetTaskQuery(id);
+        ErrorOr<GetTaskResult> result = await _mediator.Send(query);
+
+        return result.Match(
+            response => Ok(response),
+            errors => Problem(errors));
+    }
+    
+    [HttpPost("change_position")]
     public async Task<IActionResult> ChangeTaskPosition(ChangeTaskPositionRequest request)
     {
         var command = _mapper.Map<ChangeTaskPositionCommand>(request);
@@ -42,6 +56,35 @@ public class TasksController : ApiController
 
         return result.Match(
             response => Ok(_mapper.Map<ChangeTaskPositionResponse>(response)),
+            errors => Problem(errors));
+    }
+    
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> UpdateKanbanTask(Guid id, UpdateKanbanTaskRequest request)
+    {
+        var req = new
+        {
+            Id = id,
+            Title = request.Title,
+            Text = request.Text
+        };
+        
+        var command = _mapper.Map<UpdateKanbanTaskCommand>(req);
+        ErrorOr<UpdateKanbanTaskResult> result = await _mediator.Send(command);
+
+        return result.Match(
+            response => Ok(response),
+            errors => Problem(errors));
+    }
+    
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeleteKanbanTask(Guid id)
+    {
+        var command = new DeleteKanbanTaskCommand(id);
+        ErrorOr<DeleteKanbanTaskResult> result = await _mediator.Send(command);
+
+        return result.Match(
+            response => Ok(response),
             errors => Problem(errors));
     }
 }

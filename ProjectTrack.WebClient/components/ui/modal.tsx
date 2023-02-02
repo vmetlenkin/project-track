@@ -9,13 +9,13 @@ type SubComponents = {
 }
 
 type Props = {
-  title: string,
+  title?: string,
   children: React.ReactNode,
-  show: boolean,
-  onClose: () => void
+  show?: boolean,
+  onClose?: () => void
 }
 
-const Modal: React.FC<Props> & SubComponents = ({ title, children, show, onClose }) => {
+const Modal: React.FC<Props> & SubComponents = ({ title, children, show = true, onClose }) => {
   return (
     <div>
       <div className={`${show ? 'fixed' : 'hidden'} flex justify-center items-center bg-black bg-opacity-50 
@@ -23,15 +23,19 @@ const Modal: React.FC<Props> & SubComponents = ({ title, children, show, onClose
       >
         <div className="relative w-full max-w-2xl h-full md:h-auto">
           <div className="relative bg-white dark:bg-zinc-900 rounded-md shadow">
-            <div className="flex justify-between items-center py-4 pl-6 pr-4 rounded-t">
-              <Badge>{title}</Badge>
-              <button type="button" onClick={onClose} className="text-gray-400 bg-transparent 
+            {(title || onClose) && (
+              <div className="flex justify-between items-center py-4 pl-6 pr-4 rounded-t">
+                {title && <Badge>{title}</Badge>}
+                {onClose && (
+                  <button type="button" onClick={onClose} className="text-gray-400 bg-transparent 
                 hover:bg-gray-200 hover:text-gray-900 rounded-md text-sm p-1.5 ml-auto inline-flex items-center"
-              >
-                <XMarkIcon className="w-6 h-6" />
-                <span className="sr-only">Закрыть окно</span>
-              </button>
-            </div>
+                  >
+                    <XMarkIcon className="w-6 h-6" />
+                    <span className="sr-only">Закрыть окно</span>
+                  </button>
+                )}
+              </div>
+            )}
             {children}
           </div>
         </div>

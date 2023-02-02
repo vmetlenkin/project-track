@@ -1,9 +1,12 @@
-﻿using ProjectTrack.Domain.Models;
+﻿using ProjectTrack.Domain.DTO;
+using ProjectTrack.Domain.Models;
 
 namespace ProjectTrack.Application.Interfaces.Persistence;
 
 public interface IKanbanTaskRepository
 {
-    KanbanTask? GetById(Guid id);
+    KanbanTaskDTO? GetById(Guid id);
+    KanbanTask? GetWithTaskOrder(Guid id);
     void Add(KanbanTask task);
+    void Remove(KanbanTask task);
 }

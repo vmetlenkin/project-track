@@ -57,15 +57,4 @@ public class ProjectsController : ApiController
             response => Ok(response),
             errors => Problem(errors));
     }
-    
-    [HttpDelete("{projectId:guid}")]
-    public async Task<IActionResult> DeleteProject(Guid projectId)
-    {
-        var command = new DeleteProjectCommand(projectId);
-        ErrorOr<DeleteProjectResult> result = await _mediator.Send(command);
-        
-        return result.Match(
-            response => Ok(response),
-            errors => Problem(errors));
-    }
 }

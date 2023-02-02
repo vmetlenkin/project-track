@@ -4,12 +4,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "../redux/hooks";
 import { FormProvider, useForm } from "react-hook-form";
-import { UserApi } from "../api";
 import { setCookie } from "nookies";
 import { setUserData } from "../redux/slices/user";
 import FormField from "../components/ui/form-field";
 import Alert from "../components/ui/alert";
 import { NextPage } from "next";
+import { UserApi } from "../redux/api/user-api";
 
 const Registration: NextPage = () => {
   const router = useRouter();

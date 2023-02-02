@@ -25,4 +25,10 @@ public sealed class KanbanTask : Entity<Guid>
 
         return new KanbanTask(id, title, text, kanbanColumnTaskOrder);
     }
+
+    public void UpdateTask(string title, string text)
+    {
+        Title = title;
+        Text = text;
+    }
 }

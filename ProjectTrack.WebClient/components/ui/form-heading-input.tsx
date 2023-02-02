@@ -1,12 +1,12 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import { useFormContext } from "react-hook-form";
 
 type Props = {
-  name: string,
-  placeholder?: string
+  name: string;
+  placeholder?: string;
 }
 
-const FormHeadingInput: React.FC<Props> = ({ name, placeholder = ""}) => {
+const FormHeadingInput: React.FC<Props> = ({ name, placeholder = "" }) => {
   const { register, formState } = useFormContext();
   
   return (

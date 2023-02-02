@@ -17,7 +17,7 @@ public class KanbanBoardRepository : IKanbanBoardRepository
         return _context.KanbanBoards
             .Select(b => new KanbanBoardDTO(
                 b.Id, 
-                b.Columns.Select(
+                b.Columns.OrderBy(c => c.Order).Select(
                     c => new KanbanColumnDTO(
                         c.Id,
                         c.Name,
@@ -25,7 +25,9 @@ public class KanbanBoardRepository : IKanbanBoardRepository
                                 .Select(t => new KanbanTaskDTO(
                                     t.KanbanTask.Id, 
                                     t.KanbanTask.Title,
-                                    t.KanbanTask.Text)
+                                    t.KanbanTask.Text,
+                                    t.Order,
+                                    t.KanbanColumnId)
                         ))
                     )
                 )

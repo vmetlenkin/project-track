@@ -12,4 +12,6 @@ public record KanbanColumnDTO(
 public record KanbanTaskDTO(
     Guid Id, 
     string Title,
-    string Text);
+    string Text,
+    int Order,
+    Guid KanbanColumnId);
